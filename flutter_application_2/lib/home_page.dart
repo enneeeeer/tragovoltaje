@@ -7,9 +7,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('TragoVoltaje - Página Principal'),
-      ),
       body: const Center(
         child: Text(
           '¡Bienvenido a TragoVoltaje!',
