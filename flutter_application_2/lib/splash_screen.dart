@@ -54,7 +54,7 @@ class _SplashScreen extends State<SplashScreen> with SingleTickerProviderStateMi
               opacity: _visible ? 1.0 : 0.0,
               duration: Duration(milliseconds: 500),
               child: Image.asset(
-                'assets/lightning.png',
+                'assets/lightning.jpg',
                 fit: BoxFit.cover, // Para que la imagen se adapte al tamaño de la pantalla
               ),
             ),
