@@ -85,13 +85,11 @@ class _SplashScreen extends State<SplashScreen> with SingleTickerProviderStateMi
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 20),
                   Image.asset(
-                    'assets/logo.jpg', // Asegúrate de tener logo.png en la carpeta assets
-                    height: 150,
-                    width: 150,
+                    'assets/logo-sin-fondo.png', // Asegúrate de tener logo.png en la carpeta assets
+                    height: 200,
+                    width: 200,
                   ),
-                  const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: _startAnimation,
                     style: ElevatedButton.styleFrom(

@@ -47,12 +47,22 @@ class _HomePageState extends State<HomePage> {
           child: const Center(child: Text('¡Bienvenido a Tragovoltaje!')),
         ),
         actions: [
-          IconButton(
+          PopupMenuButton<int>(
             icon: const Icon(Icons.account_box),
-            onPressed: () {
-              // Lógica para manejar la cuenta
-              print('Botón de cuenta presionado');
-            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+              const PopupMenuItem <int>(
+                value: 0,
+                child: Text('Registrarse'),
+              ),
+              const PopupMenuItem <int>(
+                value: 1,
+                child: Text('Iniciar Sesion'),
+              ),
+              const PopupMenuItem<int>(
+                value: 2,
+                child: Text('Cerrar Sesion'),
+              ),
+            ],
           ),
         ],
       ),
