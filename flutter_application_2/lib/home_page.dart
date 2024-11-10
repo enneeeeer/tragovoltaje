@@ -86,23 +86,30 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              title: const Text('Home'),
+              title: const Text('Conectar pulsera'),
               onTap: () {
                 _onItemTapped(0);
                 Navigator.pop(context); // Cierra el drawer
               },
             ),
             ListTile(
-              title: const Text('Perfil'),
+              title: const Text('Controlar voltaje'),
               onTap: () {
                 _onItemTapped(1);
                 Navigator.pop(context); // Cierra el drawer
               },
             ),
             ListTile(
-              title: const Text('Ajustes'),
+              title: const Text('Modo de Juegos'),
               onTap: () {
                 _onItemTapped(2);
+                Navigator.pop(context); // Cierra el drawer
+              },
+            ),
+            ListTile(
+              title: const Text('Version Premium'),
+              onTap: () {
+                _onItemTapped(3);
                 Navigator.pop(context); // Cierra el drawer
               },
             ),
