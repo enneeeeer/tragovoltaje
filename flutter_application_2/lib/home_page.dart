@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
+import 'profile_screen.dart';  
+import 'settings_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,9 +33,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    const Center(child: Text('Home')),
-    const Center(child: Text('Perfil')),
-    const Center(child: Text('Ajustes')),
+    HomeScreen(),
+    ProfileScreen(),
+    SettingsScreen(),
   ];
 
   @override
