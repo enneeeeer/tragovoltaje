@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           PopupMenuButton<int>(
-            icon: const Icon(Icons.account_box),
+            icon: const Icon(Icons.settings),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
               const PopupMenuItem <int>(
                 value: 0,
