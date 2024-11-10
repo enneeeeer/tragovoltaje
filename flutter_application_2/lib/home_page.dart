@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
-import 'profile_screen.dart';  
-import 'settings_screen.dart';
+import 'conectar_pulsera.dart';
+import 'controlar_voltaje.dart';  
+import 'juegos.dart';
+import 'premium.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,9 +34,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    ProfileScreen(),
-    SettingsScreen(),
+    ConectarPulsera(),
+    ControlarVoltaje(),
+    Juegos(),
+    Premium(),
   ];
 
   @override
@@ -47,7 +49,14 @@ class _HomePageState extends State<HomePage> {
         title: AnimatedOpacity(
           opacity: _showTitle ? 1.0 : 0.0, 
           duration: const Duration(seconds: 1),
-          child: const Center(child: Text('¡Bienvenido a Tragovoltaje!')),
+          child: Center(
+            child: Text(
+              '¡Bienvenido a Tragovoltaje!',
+              style: TextStyle(
+                color: Colors.white,
+              )
+            )
+          ),
         ),
         actions: [
           PopupMenuButton<int>(
