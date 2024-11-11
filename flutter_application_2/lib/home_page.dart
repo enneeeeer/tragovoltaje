@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'conectar_pulsera.dart';
 import 'controlar_voltaje.dart';
 import 'premium.dart';
-<<<<<<< HEAD
 import 'social_page.dart';
 import 'terms_page.dart';
 import 'use_page.dart';
 import 'help_page.dart';
 import 'version_page.dart';
-=======
 import 'modos_juegos.dart'; // Importa ModosJuego
 import 'dart:async';
->>>>>>> luis
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
