@@ -54,7 +54,7 @@ class _SplashScreen extends State<SplashScreen> with SingleTickerProviderStateMi
               opacity: _visible ? 1.0 : 0.0,
               duration: Duration(milliseconds: 500),
               child: Image.asset(
-                'assets/lightning.jpg',
+                'assets/images/lightning.jpg',
                 fit: BoxFit.cover, // Para que la imagen se adapte al tamaño de la pantalla
               ),
             ),
@@ -86,7 +86,7 @@ class _SplashScreen extends State<SplashScreen> with SingleTickerProviderStateMi
                     textAlign: TextAlign.center,
                   ),
                   Image.asset(
-                    'assets/logo-sin-fondo.png', // Asegúrate de tener logo.png en la carpeta assets
+                    'assets/images/logo-sin-fondo.png', // Asegúrate de tener logo.png en la carpeta assets/images
                     height: 200,
                     width: 200,
                   ),

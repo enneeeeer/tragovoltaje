@@ -50,7 +50,7 @@ class _LightningTransitionState extends State<LightningTransition>
           opacity: _controller.value,
           duration: _controller.duration!,
           child: Image.asset(
-            'assets/lightning.jpg',
+            'assets/images/lightning.jpg',
             fit: BoxFit.cover,
           ),
         ),

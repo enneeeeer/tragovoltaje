@@ -24,7 +24,7 @@ class ConectarPulsera extends StatelessWidget {
           ),
           SizedBox(height: 25), 
           Image.asset(
-            'assets/blutu.png', // Ruta 
+            'assets/images/blutu.png', // Ruta 
             width: 150, //  ancho 
             height: 150, // altura
           ),
