@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'conectar_pulsera.dart';
-import 'controlar_voltaje.dart';  
-import 'juegos.dart';
+import 'controlar_voltaje.dart';
 import 'premium.dart';
+import 'modos_juegos.dart'; // Importa ModosJuego
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Inicia un temporizador que ocultará el titulo luego de unos segundos
     Timer(const Duration(seconds: 3), () {
       setState(() {
         _showTitle = false;
@@ -36,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _widgetOptions = <Widget>[
     ConectarPulsera(),
     ControlarVoltaje(),
-    Juegos(),
+    ModosJuego(), // Aquí se agrega ModosJuego a las opciones
     Premium(),
   ];
 
@@ -98,28 +97,28 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Conectar pulsera'),
               onTap: () {
                 _onItemTapped(0);
-                Navigator.pop(context); // Cierra el drawer
+                Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Controlar voltaje'),
               onTap: () {
                 _onItemTapped(1);
-                Navigator.pop(context); // Cierra el drawer
+                Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Modo de Juegos'),
               onTap: () {
                 _onItemTapped(2);
-                Navigator.pop(context); // Cierra el drawer
+                Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Version Premium'),
               onTap: () {
                 _onItemTapped(3);
-                Navigator.pop(context); // Cierra el drawer
+                Navigator.pop(context);
               },
             ),
           ],
