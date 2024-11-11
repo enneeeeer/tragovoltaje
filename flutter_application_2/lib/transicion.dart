@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class LightningTransition extends StatefulWidget {
   final Widget child;
-  
+
   const LightningTransition({super.key, required this.child});
-  
+
   @override
   _LightningTransitionState createState() => _LightningTransitionState();
 }
@@ -27,9 +27,7 @@ class _LightningTransitionState extends State<LightningTransition>
           });
           _controller.reverse(); // Reversa la animación para hacer desaparecer la transición
         } else if (status == AnimationStatus.dismissed) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => widget.child),
-          );
+          // Aquí puedes manejar la navegación si es necesario
         }
       });
     _controller.forward(); // Comienza la animación al cargar el widget
@@ -46,12 +44,14 @@ class _LightningTransitionState extends State<LightningTransition>
     return Stack(
       children: [
         if (_visible) widget.child, // Muestra el contenido después de la animación
-        AnimatedOpacity(
-          opacity: _controller.value,
-          duration: _controller.duration!,
-          child: Image.asset(
-            'assets/images/lightning.jpg',
-            fit: BoxFit.cover,
+        Positioned.fill( // Asegúrate de que la imagen ocupe todo el espacio
+          child: AnimatedOpacity(
+            opacity: _controller.value,
+            duration: _controller.duration!,
+            child: Image.asset(
+              'assets/images/lightning.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ],
