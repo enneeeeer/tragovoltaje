@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class RuletaJuegoPage extends StatefulWidget {
   final List<String> nombres;
@@ -20,7 +21,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 3), // Duración de la animación
+      duration: const Duration(seconds: 3),
       vsync: this,
     );
 
@@ -29,18 +30,57 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
         setState(() {
           _angle = _animation.value;
         });
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _mostrarNombreSeleccionado();
+        }
       });
   }
 
   void _girarRuleta() {
-    // Generar un ángulo aleatorio para girar la ruleta
-    double randomAngle = (2 * pi * _random.nextDouble()) + (2 * pi * 5); // Girar varias veces
+    double randomAngle = (2 * pi * _random.nextDouble()) + (2 * pi * 5);
     _controller.reset();
     _animation = Tween<double>(begin: _angle, end: _angle + randomAngle).animate(_controller);
-      // Al finalizar la animación, determinar el ganador  
-    _controller.forward().whenComplete(() {  
-      //_mostrarGanador(randomAngle);  
-    }); 
+    _controller.forward();
+  }
+
+  void _mostrarNombreSeleccionado() {
+    double angleFinal = _angle % (2 * pi);
+    double anglePerSegment = 2 * pi / widget.nombres.length;
+    int selectedIndex = ((2 * pi - angleFinal) / anglePerSegment).floor() % widget.nombres.length;
+
+    String nombreSeleccionado = widget.nombres[selectedIndex];
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('¡Ganador!'),
+          content: Text('El nombre seleccionado es: $nombreSeleccionado'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Shot'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Shock'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Continuar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -52,49 +92,69 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Transform.rotate(
-              angle: _angle,
-              child: Container(
-                height: 300,
-                width: 300,
-                child: CustomPaint(
-                  painter: RuletaPainter(nombres: widget.nombres),
-                ),
-              ),
-            ),
-            Positioned(
-              child: ClipOval(
-                child: Image.asset(
-                  'assets/images/rayo.png', // Reemplaza con la ruta de tu imagen
-                  height: 50, // Ajusta el tamaño según sea necesario
-                  width: 50,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            SizedBox(height: 500,),
-            Positioned(
-              bottom: 50,
-              child: ElevatedButton(
-                onPressed: _girarRuleta,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                ),
-                child: Text(
-                  'Girar',
-                  style: TextStyle(
-                    color: Colors.white
+      body: Stack(
+        children: [
+          // Fondo GIF animado usando flutter_animate
+          Image.asset(
+            "assets/images/rayo.gif", // Ruta del GIF en assets
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+          ).animate(onPlay: (controller) => controller.repeat()).fadeIn(),
+          Center(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Transform.rotate(
+                  angle: _angle,
+                  child: Container(
+                    height: 300,
+                    width: 300,
+                    child: CustomPaint(
+                      painter: RuletaPainter(nombres: widget.nombres),
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  right: -20,
+                  child: Transform.rotate(
+                    angle: pi / 2,
+                    child: Icon(
+                      Icons.arrow_drop_down,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/rayo.png',
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 500,),
+                Positioned(
+                  bottom: 50,
+                  child: ElevatedButton(
+                    onPressed: _girarRuleta,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    ),
+                    child: Text(
+                      'Girar',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -111,7 +171,6 @@ class RuletaPainter extends CustomPainter {
     final double radius = size.width / 2;
     final double anglePerSegment = 2 * pi / nombres.length;
 
-    // Definir una lista de colores
     List<Color> colors = [
       Colors.red,
       Colors.blue,
@@ -124,18 +183,12 @@ class RuletaPainter extends CustomPainter {
       Colors.pink,
       Colors.grey,
       Colors.black,
-      Colors.white,
     ];
 
     for (int i = 0; i < nombres.length; i++) {
-      // Asignar un color específico para cada segmento
       paint.color = colors[i % colors.length];
-
-      // Calcular el ángulo de inicio y el ángulo final
       double startAngle = i * anglePerSegment;
       double sweepAngle = anglePerSegment;
-
-      // Dibujar el segmento
       canvas.drawArc(
         Rect.fromCircle(center: Offset(radius, radius), radius: radius),
         startAngle,
@@ -144,12 +197,10 @@ class RuletaPainter extends CustomPainter {
         paint,
       );
 
-      // Calcular la posición del texto
       double textAngle = startAngle + sweepAngle / 2;
       double textX = radius + (radius / 2) * cos(textAngle);
       double textY = radius + (radius / 2) * sin(textAngle);
 
-      // Dibujar el texto
       TextPainter textPainter = TextPainter(
         text: TextSpan(
           text: nombres[i],
@@ -164,6 +215,6 @@ class RuletaPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true; // Redibujar siempre cuando hay cambios
+    return true;
   }
 }
