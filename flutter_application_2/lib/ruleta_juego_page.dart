@@ -37,7 +37,10 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
     double randomAngle = (2 * pi * _random.nextDouble()) + (2 * pi * 5); // Girar varias veces
     _controller.reset();
     _animation = Tween<double>(begin: _angle, end: _angle + randomAngle).animate(_controller);
-    _controller.forward();
+      // Al finalizar la animación, determinar el ganador  
+    _controller.forward().whenComplete(() {  
+      //_mostrarGanador(randomAngle);  
+    }); 
   }
 
   @override
@@ -63,15 +66,30 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                 ),
               ),
             ),
+            Positioned(
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/rayo.png', // Reemplaza con la ruta de tu imagen
+                  height: 50, // Ajusta el tamaño según sea necesario
+                  width: 50,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             SizedBox(height: 500,),
             Positioned(
               bottom: 50,
               child: ElevatedButton(
                 onPressed: _girarRuleta,
-                child: Text('Girar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                ),
+                child: Text(
+                  'Girar',
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
                 ),
               ),
             ),

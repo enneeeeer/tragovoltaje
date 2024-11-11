@@ -56,22 +56,35 @@ class _RuletaPageState extends State<RuletaPage> {
                   _controller.clear(); // Limpiar el campo de texto
                 }
               },
-              child: Text('Agregar Nombre'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.lightBlue,
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               ),
+              child: Text('Agregar Nombre'),
             ),
             SizedBox(height: 20),
             // Aquí se muestra la ruleta
-            Container(
-              height: 200,
-              width: 200,
-              child: CustomPaint(
-                painter: RuletaPainter(nombres: _nombres),
-              ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: 200,
+                  width: 200,
+                  child: CustomPaint(
+                    painter: RuletaPainter(nombres: _nombres),
+                  ),
+                ),
+                ClipOval(
+                  child: Image.asset(
+                    'assets/images/rayo.png', // Reemplaza con la ruta de tu imagen
+                    height: 50, // Ajusta el tamaño según sea necesario
+                    width: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 20,),// Para empujar el botón hacia abajo
+            SizedBox(height: 20,), // Para empujar el botón hacia abajo
             ElevatedButton(
               onPressed: () {
                 // Navegar a la nueva página de la ruleta
@@ -82,11 +95,11 @@ class _RuletaPageState extends State<RuletaPage> {
                   ),
                 );
               },
-              child: Text('Jugar'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               ),
+              child: Text('Jugar'),
             ),
           ],
         ),
