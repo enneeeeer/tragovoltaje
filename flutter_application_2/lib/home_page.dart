@@ -4,6 +4,11 @@ import 'conectar_pulsera.dart';
 import 'controlar_voltaje.dart';  
 import 'juegos.dart';
 import 'premium.dart';
+import 'social_page.dart';
+import 'terms_page.dart';
+import 'use_page.dart';
+import 'help_page.dart';
+import 'version_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,6 +36,41 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _navigateToPage(int value) {
+    switch (value) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SocialMediaPage()),
+        );
+        break;
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TermsOfServicePage()),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UsageModePage()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HelpPage()),
+        );
+        break;
+      case 4:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CurrentVersionPage()),
+        );
+        break;
+    }
   }
 
   final List<Widget> _widgetOptions = <Widget>[
@@ -61,18 +101,27 @@ class _HomePageState extends State<HomePage> {
         actions: [
           PopupMenuButton<int>(
             icon: const Icon(Icons.settings),
+            onSelected: _navigateToPage,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
               const PopupMenuItem <int>(
                 value: 0,
-                child: Text('Registrarse'),
+                child: Text('Siguenos en redes sociales'),
               ),
               const PopupMenuItem <int>(
                 value: 1,
-                child: Text('Iniciar Sesion'),
+                child: Text('Terminos de servicio'),
               ),
               const PopupMenuItem<int>(
                 value: 2,
-                child: Text('Cerrar Sesion'),
+                child: Text('Modo de uso'),
+              ),
+              const PopupMenuItem<int>(
+                value: 3,
+                child: Text('Ayuda'),
+              ),
+              const PopupMenuItem<int>(
+                value: 4,
+                child: Text('Version actual'),
               ),
             ],
           ),
