@@ -56,8 +56,8 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('¡Ganador!'),
-          content: Text('El nombre seleccionado es: $nombreSeleccionado'),
+          title: Text('¡A jugar!'),
+          content: Text('Es turno de $nombreSeleccionado'),
           actions: [
             TextButton(
               onPressed: () {
