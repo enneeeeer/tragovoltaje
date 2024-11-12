@@ -169,6 +169,10 @@ class RuletaPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()..style = PaintingStyle.fill;
+    final Paint borderPaint = Paint()
+      ..color = Colors.black  
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.0; // Ancho del borde
     final double radius = size.width / 2;
     final double anglePerSegment = 2 * pi / nombres.length;
 
@@ -214,6 +218,9 @@ class RuletaPainter extends CustomPainter {
       textPainter.layout();
       textPainter.paint(canvas, Offset(textX - textPainter.width / 2, textY - textPainter.height / 2));
     }
+
+    // Dibujar el borde
+    canvas.drawCircle(Offset(radius, radius), radius, borderPaint);
   }
 
   @override

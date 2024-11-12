@@ -161,10 +161,10 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.blueGrey[800], // Cambiar el color de fondo
+          backgroundColor: Colors.blue[800], // Cambiar el color de fondo
           title: Center(child: Text('Es turno de $nombreSeleccionado', style: TextStyle(color: Colors.white))),
           content: SizedBox(
-            width: 300, // Establecer un ancho máximo para el contenido
+            width: 250, // Establecer un ancho máximo para el contenido
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -227,7 +227,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
               children: [
                 Transform.rotate(
                   angle: _angle,
-                  child: Container(
+                  child: SizedBox(
                     height: 300,
                     width: 300,
                     child: CustomPaint(
@@ -288,6 +288,10 @@ class RuletaPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()..style = PaintingStyle.fill;
+        final Paint borderPaint = Paint()
+      ..color = Colors.black  
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.0; // Ancho del borde
     final double radius = size.width / 2;
     final double anglePerSegment = 2 * pi / nombres.length;
 
@@ -331,6 +335,7 @@ class RuletaPainter extends CustomPainter {
       textPainter.layout();
       textPainter.paint(canvas, Offset(textX - textPainter.width / 2, textY - textPainter.height / 2));
     }
+    canvas.drawCircle(Offset(radius, radius), radius, borderPaint);
   }
 
   @override
