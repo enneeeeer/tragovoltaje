@@ -100,7 +100,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
-          ).animate(onPlay: (controller) => controller.repeat()).fadeIn(),
+          ).animate(onPlay: (controller) => controller.repeat()),
           Center(
             child: Stack(
               alignment: Alignment.center,

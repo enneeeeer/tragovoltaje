@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'ruleta_page.dart'; // Importar la nueva página
+import 'modo_basico_page.dart'; // Importar la nueva página
+import 'modo_aventura_page.dart'; // Importar la nueva página
+import 'modo_confesiones_page.dart'; // Importar la nueva página
+import 'modo_desafio_page.dart'; // Importar la nueva página
+import 'modo_extremo_page.dart'; // Importar la nueva página
 
 class ModosJuego extends StatelessWidget {
   const ModosJuego({super.key});
@@ -41,6 +45,7 @@ class ModosJuego extends StatelessWidget {
                   GameModeCard(text: 'Modo aventura', image: 'assets/images/azul.jpeg'),
                   GameModeCard(text: 'Modo desafío', image: 'assets/images/anaranjado.jpg'),
                   GameModeCard(text: 'Modo confesiones', image: 'assets/images/rojo.jpg'),
+                  GameModeCard(text: 'Modo Extremo', image: 'assets/images/negro.png'),
                 ],
               ),
             ),
@@ -68,12 +73,19 @@ class GameModeCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           // Navegar a la nueva página de Ruleta
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => RuletaPage(mode: text)),
-          );
+          if (text == 'Modo básico') {  
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoBasicoPage()));  
+          } else if (text == 'Modo aventura') {  
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoAventuraPage()));  
+          } else if (text == 'Modo desafío') {  
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoDesafioPage()));  
+          } else if (text == 'Modo confesiones') {  
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoConfesionesPage()));  
+          } else if (text == 'Modo Extremo') {  
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoExtremoPage()));  
+          }
         },
- child: ClipRRect(
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Container(
             height: 150,

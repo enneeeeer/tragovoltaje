@@ -3,16 +3,14 @@ import 'dart:math';
 import 'package:flutter_animate/flutter_animate.dart'; // Importa flutter_animate para animaciones
 import 'ruleta_juego_page.dart'; // Importar la nueva página
 
-class RuletaPage extends StatefulWidget {
-  final String mode;
-
-  RuletaPage({required this.mode});
+class ModoDesafioPage extends StatefulWidget {
+  const ModoDesafioPage({super.key});
 
   @override
-  _RuletaPageState createState() => _RuletaPageState();
+  _ModoDesafioPageState createState() => _ModoDesafioPageState();
 }
 
-class _RuletaPageState extends State<RuletaPage> {
+class _ModoDesafioPageState extends State<ModoDesafioPage> {
   final TextEditingController _controller = TextEditingController();
   final List<String> _nombres = [];
 
@@ -23,7 +21,7 @@ class _RuletaPageState extends State<RuletaPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Bienvenido al ${widget.mode}'),
+        title: Text('Bienvenido al Modo Desafios'),
       ),
       body: Stack(
         children: [
@@ -33,7 +31,7 @@ class _RuletaPageState extends State<RuletaPage> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
-          ).animate(onPlay: (controller) => controller.repeat()).fadeIn(),
+          ).animate(onPlay: (controller) => controller.repeat()),
           
           // Contenido principal de la página
           Padding(

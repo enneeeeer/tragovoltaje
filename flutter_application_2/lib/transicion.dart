@@ -1,3 +1,4 @@
+// Aún no se como emplear la transicion para los clicks
 import 'package:flutter/material.dart';
 
 class LightningTransition extends StatefulWidget {
