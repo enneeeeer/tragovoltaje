@@ -21,19 +21,16 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Bienvenido al Modo Extremo'),
+        title: Text('Bienvenido al Modo Extremo', style: TextStyle(fontFamily: 'Roboto')),
       ),
       body: Stack(
         children: [
-          // Fondo GIF animado
           Image.asset(
-            "assets/images/fuego.gif", // Ruta del GIF en assets
+            "assets/images/fuego.gif",
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
           ).animate(onPlay: (controller) => controller.repeat()),
-          
-          // Contenido principal de la página
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -41,7 +38,7 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
               children: [
                 Text(
                   'Agrega nombres a la ruleta:',
-                  style: TextStyle(fontSize: 24, color: Colors.lightBlue),
+                  style: TextStyle(fontSize: 24, color: Colors.lightBlue, fontFamily: 'Roboto'),
                 ),
                 SizedBox(height: 20),
                 TextField(
@@ -52,6 +49,8 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                     hintText: 'Ingresa un nombre',
                     filled: true,
                     fillColor: Colors.white,
+                    labelStyle: TextStyle(color: Colors.lightBlue),
+                    hintStyle: TextStyle(color: Colors.grey),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -60,22 +59,25 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                     String name = _controller.text;
                     if (name.isNotEmpty) {
                       setState(() {
-                        _nombres.add(name); // Agregar el nombre a la lista
+                        _nombres.add(name);
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('$name agregado a la ruleta'), duration: Duration(milliseconds: 750)),
                       );
-                      _controller.clear(); // Limpiar el campo de texto
+                      _controller.clear();
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlue,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   ),
-                  child: Text('Agregar Nombre'),
+                  child: Text('Agregar Nombre', style: TextStyle(fontSize: 18)),
                 ),
                 SizedBox(height: 20),
-                // Ruleta con imagen central
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -83,7 +85,7 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                       onTapDown: (details) {
                         _handleTap(details.localPosition);
                       },
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         width: 200,
                         child: CustomPaint(
@@ -93,7 +95,7 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                     ),
                     ClipOval(
                       child: Image.asset(
-                        'assets/images/rayo.png', // Ruta de la imagen
+                        'assets/images/rayo.png',
                         height: 50,
                         width: 50,
                         fit: BoxFit.cover,
@@ -101,22 +103,25 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20), // Para empujar el botón hacia abajo
+                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Navegar a la nueva página de la ruleta
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RuletaJuegoPage(nombres: _nombres, modo:'extremo'),
+                        builder: (context) => RuletaJuegoPage(nombres: _nombres, modo: 'extremo'),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   ),
-                  child: Text('Jugar'),
+                  child: Text('Jugar', style: TextStyle(fontSize: 18)),
                 ),
               ],
             ),

@@ -163,7 +163,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
         return AlertDialog(
           backgroundColor: Colors.blueGrey[800], // Cambiar el color de fondo
           title: Center(child: Text('Es turno de $nombreSeleccionado', style: TextStyle(color: Colors.white))),
-          content: Container(
+          content: SizedBox(
             width: 300, // Establecer un ancho máximo para el contenido
             child: Column(
               mainAxisSize: MainAxisSize.min,

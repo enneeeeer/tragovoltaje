@@ -79,7 +79,7 @@ class _ModoAventuraPageState extends State<ModoAventuraPage> {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 200,
                       width: 200,
                       child: CustomPaint(
