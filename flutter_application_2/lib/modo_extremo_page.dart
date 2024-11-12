@@ -63,7 +63,7 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                         _nombres.add(name); // Agregar el nombre a la lista
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('$name agregado a la ruleta')),
+                        SnackBar(content: Text('$name agregado a la ruleta'), duration: Duration(milliseconds: 750)),
                       );
                       _controller.clear(); // Limpiar el campo de texto
                     }
@@ -79,11 +79,16 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Container(
-                      height: 200,
-                      width: 200,
-                      child: CustomPaint(
-                        painter: RuletaPainter(nombres: _nombres),
+                    GestureDetector(
+                      onTapDown: (details) {
+                        _handleTap(details.localPosition);
+                      },
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        child: CustomPaint(
+                          painter: RuletaPainter(nombres: _nombres),
+                        ),
                       ),
                     ),
                     ClipOval(
@@ -103,7 +108,7 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RuletaJuegoPage(nombres: _nombres),
+                        builder: (context) => RuletaJuegoPage(nombres: _nombres, modo:'extremo'),
                       ),
                     );
                   },
@@ -118,6 +123,35 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
           ),
         ],
       ),
+    );
+  }
+
+  void _handleTap(Offset position) {
+    // Determinar si se ha tocado un segmento de la ruleta
+    double anglePerSegment = 2 * pi / _nombres.length;
+    double centerX = 100; // Centro de la ruleta
+    double centerY = 100; // Centro de la ruleta
+
+    // Calcular el ángulo del toque
+    double touchAngle = atan2(position.dy - centerY, position.dx - centerX);
+    if (touchAngle < 0) {
+      touchAngle += 2 * pi; // Asegurarse de que el ángulo esté en el rango [0, 2π]
+    }
+
+    // Determinar el índice del segmento tocado
+    int touchedIndex = (touchAngle / anglePerSegment).floor() % _nombres.length;
+
+    // Obtener el nombre que se va a eliminar
+    String nombreEliminado = _nombres[touchedIndex];
+
+    // Eliminar el nombre si se toca
+    setState(() {
+      _nombres.removeAt(touchedIndex);
+    });
+
+    // Mostrar el nombre eliminado en el SnackBar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$nombreEliminado eliminado de la ruleta'), duration: Duration(milliseconds: 750)),
     );
   }
 }

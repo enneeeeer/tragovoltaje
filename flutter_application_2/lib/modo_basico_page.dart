@@ -103,7 +103,7 @@ class _ModoBasicoPageState extends State<ModoBasicoPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RuletaJuegoPage(nombres: _nombres),
+                        builder: (context) => RuletaJuegoPage(nombres: _nombres, modo: 'basico'),
                       ),
                     );
                   },

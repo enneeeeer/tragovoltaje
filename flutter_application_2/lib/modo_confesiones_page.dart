@@ -103,7 +103,7 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RuletaJuegoPage(nombres: _nombres),
+                        builder: (context) => RuletaJuegoPage(nombres: _nombres, modo: 'confesiones'),
                       ),
                     );
                   },
