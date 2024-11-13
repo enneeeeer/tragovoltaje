@@ -12,7 +12,8 @@ class RuletaJuegoPage extends StatefulWidget {
   _RuletaJuegoPageState createState() => _RuletaJuegoPageState();
 }
 
-class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProviderStateMixin {
+class _RuletaJuegoPageState extends State<RuletaJuegoPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   double _angle = 0;
@@ -27,27 +28,74 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   };
 
   List<String> retosBasicos = [
-      'Retos Basicos',
-      'Retos Basicos',
-      'Retos Basicos',
+    'Retos Basicos',
+    'Retos Basicos',
+    'Retos Basicos',
   ];
 
   List<String> retosAventura = [
-      'Retos de Aventura',
-      'Retos de Aventura',
-      'Retos de Aventura',
+    'Retos de Aventura',
+    'Retos de Aventura',
+    'Retos de Aventura',
   ];
 
   List<String> retosConfesiones = [
-      'Retos de Confesiones',
-      'Retos de Confesiones',
-      'Retos de Confesiones',
+    '¿Quién de tus amigos de aquí te cae peor?',
+    '¿Qué es lo más raro que has hecho por amor?',
+    'Cuenta una historia divertida de una cita fallida.',
+    '¿Alguna vez te has sentido atraído/a por el novio/a de un amigo/a?',
+    '¿A quién matarías, con quién te casarías y a quién besarías? (De los aquí presentes)',
+    '¿Quién es la persona a la que más rencor le tienes?',
+    '¿Alguna vez te has sentido atraído por alguna de las personas que están aquí?',
+    'Confiesa un secreto que nadie sepa.',
+    'Algo extraño que hagas cuando no hay nadie presente.',
+    'Una manía vergonzosa que no le hayas contado a nadie.',
+    'Un apodo ofensivo que le hayas puesto a alguien de tu círculo cercano.',
+    '¿Quién de tus amigos es más probable que el día de su boda salga corriendo antes de darse el ‘sí, quiero’?',
+    '¿Qué te gustaría cambiar de tu cuerpo?',
+    '¿Quién es más probable que tenga una cita a ciegas?',
+    '¿Cuánto ha sido lo máximo que has estado sin tener relaciones sexuales?',
+    '¿Qué es lo primero que harías si te despertaras siendo del sexo opuesto?',
+    '¿Has cotilleado el móvil de tu pareja sin su permiso?',
+    '¿Alguna vez has tenido una cuenta en redes falsa para stalkear a alguien?',
+    '¿Alguna vez has tenido una relación en secreto?',
+    'Lee un mensaje que hayas mandado borracha/o y que te de vergüenza ajena.',
+    '¿Qué es lo más ridículo que te han pillado haciendo?',
+    '¿Alguna vez has sentido atracción por alguien que ni siquiera conocías?',
+    '¿Cuál es la mentira menos creíble que has dicho nunca a tus amigos?',
+    'Cuenta una maldad que hicieras de pequeñ@ y ahora te arrepientas.',
+    '¿Qué es lo más ilegal que has hecho?',
+    '¿Has mentido sobre tu edad con algún objetivo? ¿Cuál?',
+    '¿Cambiarías algo de tu pasado? ¿El qué?',
+    'Un comentario que hayan dicho sobre ti y te haya dolido mucho.',
+    '¿Cuál es tu peor hábito?',
+    '¿Cuál es la mentira más grave que has contado?',
+    'Un rumor que hayan dicho de ti y que hubieras preferido que fuera verdad.',
+    '¿Te has meado en la cama recientemente?',
+    '¿Qué es lo más desesperado que has hecho por dinero?',
+    '¿Has sentido atracción por el padre/madre de alguno de tus amigos?',
+    '¿Quién es la persona que peor viste de aquí?',
+    '¿Cuál es la cosa más extraña que has buscado en internet?',
+    '¿Qué es lo más caro que has robado alguna vez?',
+    '¿Qué es la cosa más infantil que todavía haces?',
+    '¿Cómo fue la peor cita de tu vida?',
+    '¿Alguna vez has tenido algún pensamiento inapropiado con una persona de aquí?',
+    '¿Quién es más probable que lleve una doble vida?',
+    'Una decisión que hayas tomado estando borracho y te arrepientas.',
+    '¿Te has reído de alguno de los aquí presentes a sus espaldas?',
+    'Un amigo que no soportes, pero te juntes con él por pena.',
+    '¿Has sido infiel alguna vez?',
+    '¿Quién podría caer en bancarrota antes de que acabe el año?',
+    '¿Alguna vez has espiado a alguien sin que lo supiera?',
+    'Define a tu expareja con una palabra.',
+    '¿Alguna vez has hecho ghosting?',
+    '¿Alguna vez has intentado llamar la atención de alguien y te ha salido mal? Cuenta tu experiencia.'
   ];
 
   List<String> retosDesafios = [
-      'Retos de Desafios',
-      'Retos de Desafios',
-      'Retos de Desafios',
+    'Retos de Desafios',
+    'Retos de Desafios',
+    'Retos de Desafios',
   ];
 
   List<String> retosExtremos = [
@@ -127,34 +175,36 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   void _girarRuleta() {
     double randomAngle = (2 * pi * _random.nextDouble()) + (2 * pi * 5);
     _controller.reset();
-    _animation = Tween<double>(begin: _angle, end: _angle + randomAngle).animate(_controller);
+    _animation = Tween<double>(begin: _angle, end: _angle + randomAngle)
+        .animate(_controller);
     _controller.forward();
   }
 
   void _mostrarNombreSeleccionado() {
     double angleFinal = _angle % (2 * pi);
     double anglePerSegment = 2 * pi / widget.nombres.length;
-    int selectedIndex = ((2 * pi - angleFinal) / anglePerSegment).floor() % widget.nombres.length;
+    int selectedIndex = ((2 * pi - angleFinal) / anglePerSegment).floor() %
+        widget.nombres.length;
 
     String nombreSeleccionado = widget.nombres[selectedIndex];
     String reto = '';
 
     switch (widget.modo) {
-    case 'basico':
-      reto = retosBasicos[Random().nextInt(retosBasicos.length)];
-      break;
-    case 'aventura':
-      reto = retosAventura[Random().nextInt(retosAventura.length)];
-      break;
-    case 'desafio':
-      reto = retosDesafios[Random().nextInt(retosDesafios.length)];
-      break;
-    case 'confesiones':
-      reto = retosConfesiones[Random().nextInt(retosConfesiones.length)];
-      break;
-    case 'extremo':
-      reto = retosExtremos[Random().nextInt(retosExtremos.length)];
-      break;
+      case 'basico':
+        reto = retosBasicos[Random().nextInt(retosBasicos.length)];
+        break;
+      case 'aventura':
+        reto = retosAventura[Random().nextInt(retosAventura.length)];
+        break;
+      case 'desafio':
+        reto = retosDesafios[Random().nextInt(retosDesafios.length)];
+        break;
+      case 'confesiones':
+        reto = retosConfesiones[Random().nextInt(retosConfesiones.length)];
+        break;
+      case 'extremo':
+        reto = retosExtremos[Random().nextInt(retosExtremos.length)];
+        break;
     }
 
     showDialog(
@@ -162,13 +212,16 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.blue[800], // Cambiar el color de fondo
-          title: Center(child: Text('Es turno de $nombreSeleccionado', style: TextStyle(color: Colors.white))),
+          title: Center(
+              child: Text('Es turno de $nombreSeleccionado',
+                  style: TextStyle(color: Colors.white))),
           content: SizedBox(
             width: 250, // Establecer un ancho máximo para el contenido
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Center(child: Text(reto, style: TextStyle(color: Colors.white))),
+                Center(
+                    child: Text(reto, style: TextStyle(color: Colors.white))),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -177,21 +230,24 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Shot', style: TextStyle(color: Colors.white)),
+                      child:
+                          Text('Shot', style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(width: 10),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Shock', style: TextStyle(color: Colors.white)),
+                      child:
+                          Text('Shock', style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(width: 10),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Continuar', style: TextStyle(color: Colors.white)),
+                      child: Text('Continuar',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -256,14 +312,17 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                     ),
                   ),
                 ),
-                SizedBox(height: 500,),
+                SizedBox(
+                  height: 500,
+                ),
                 Positioned(
                   bottom: 50,
                   child: ElevatedButton(
                     onPressed: _girarRuleta,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     ),
                     child: Text(
                       'Girar',
@@ -288,8 +347,8 @@ class RuletaPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()..style = PaintingStyle.fill;
-        final Paint borderPaint = Paint()
-      ..color = Colors.black  
+    final Paint borderPaint = Paint()
+      ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0; // Ancho del borde
     final double radius = size.width / 2;
@@ -333,7 +392,10 @@ class RuletaPainter extends CustomPainter {
         textDirection: TextDirection.ltr,
       );
       textPainter.layout();
-      textPainter.paint(canvas, Offset(textX - textPainter.width / 2, textY - textPainter.height / 2));
+      textPainter.paint(
+          canvas,
+          Offset(
+              textX - textPainter.width / 2, textY - textPainter.height / 2));
     }
     canvas.drawCircle(Offset(radius, radius), radius, borderPaint);
   }
