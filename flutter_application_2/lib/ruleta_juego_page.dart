@@ -34,10 +34,37 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage>
   ];
 
   List<String> retosAventura = [
-    'Retos de Aventura',
-    'Retos de Aventura',
-    'Retos de Aventura',
-  ];
+  'Imita un famoso por 1 min, si nadie lo adivina prepárate para el castigo',
+  'Haz un "story time" de una experiencia vergonzosa que tuviste',
+  'Intenta hacer malabares con cualquier objeto que tengas cerca durante 30 segundos',
+  'Baila una coreografía de TikTok que el grupo elija para ti',
+  'Llena tu vaso de alcohol, colócalo en tu cabeza y camina 10 pasos sin derramarlo',
+  'Tararea una canción por 1 min, si nadie lo adivina prepárate para el castigo',
+  'Grita la primera palabra que se te venga a la mente',
+  'Quédate en forma de estatua por 1 minuto sin hacer ninguna mueca',
+  'Habla con alguien en la reunión como si no los conocieras y finjan una conversación incómoda',
+  'Cierra los ojos y señala a alguien e intenta adivinar quién es',
+  'Párate en un pie por 2 min',
+  'Imita a un animal y haz que los demás adivinen cuál es',
+  'Imita a un personaje de caricatura mientras hablas durante los siguientes 3 turnos',
+  'Tómate una foto ridícula y súbela a tus redes',
+  'Mantén una postura que el grupo elija durante 40 segundos',
+  'Simula estar en cámara lenta durante 3 turnos',
+  'Llena tus mejillas de aire y habla así durante un minuto',
+  '¿Cuál es el mejor regalo que te han dado?',
+  '¿Tienes alguna manía o hábito que haces sin darte cuenta?',
+  '¿Qué es algo que siempre quisiste aprender pero aún no has intentado?',
+  '¿Cuál es el mejor cumplido que te han dado?',
+  'Actúa como si tuvieras acento extranjero durante los próximos 2 turnos',
+  'Baila la Macarena en medio de la reunión',
+  'Desafía a alguien a ver quién da más vueltas sobre sí mismo sin marearse',
+  'Con los ojos cerrados, intenta adivinar los nombres de 5 objetos que toques',
+  'Haz una mini coreografía improvisada con quien tengas más cerca',
+  '¿Cuál es el mejor regalo que has dado y a quién?',
+  '¿Cuál es la canción más embarazosa que tienes en tu lista de reproducción?',
+  'Di 5 cosas raras sobre ti',
+];
+
 
   List<String> retosConfesiones = [
     '¿Quién de tus amigos de aquí te cae peor?',
