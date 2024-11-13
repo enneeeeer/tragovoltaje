@@ -120,9 +120,42 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage>
   ];
 
   List<String> retosDesafios = [
+<<<<<<< HEAD
     'Retos de Desafios',
     'Retos de Desafios',
     'Retos de Desafios',
+=======
+      "Lámete el codo",
+      "Haz fuercitas con el jugador que elijan los demás, el que pierda recibe el castigo",
+      "Imita a cualquier persona presente y que los demás adivinen de quien se trata",
+      "Di el alfabeto al revés sin equivocarte",
+      "Enseña tu historial a los demás, si no deseas sométete a las consecuencias 😈",
+      "Quédate 1 minuto en posición de plank",
+      "Completa un trabalenguas sin equivocarte",
+      "Haz la imitación de un famoso durante 30 segundos",
+      "Haz 15 flexiones completas",
+      "Deletrea esta palabra al revés: TRAGOVOLTAJE",
+      "Cuenta un chiste, si nadie se ríe toma un shot o un shock",
+      "Haz una pregunta a una persona que apenas conozcas de tus redes sociales",
+      "Dibuja cualquier cosa en una hoja con los ojos cerrados y deja que el resto adivine que es. Si no lo logran, shot o shock",
+      "Habla con un acento extranjero durante 5 minutos",
+      "Di 2 verdades y una mentira sobre ti. Deja que el resto adivine cuál es la mentira. Si adivinan, te espera un shock ⚡️",
+      "Imita la forma de caminar de un animal",
+      "Ponte una venda en los ojos y adivina qué objeto te han pasado",
+      "Haz una mímica de una película famosa y los demás deben tratar de adivinarla",
+      "Escoge a alguien de la sala, ¿Con quién pasarías un mes en una isla desierta?",
+      "Si solo pudieras usar una aplicación por el resto de tu vida, ¿cuál sería?",
+      "Encuentra algo en la habitación que empiece con la letra 'R' y crea una historia alrededor de eso",
+      "¿Cuál sería una habilidad o superpoder que desearías tener?",
+      "Modo bilingüe: responde solo en inglés a partir de ahora durante 5 minutos",
+      "Sostén una conversación con el jugador de tu derecha solo haciendo señas",
+      "Di el nombre de todos los jugadores presentes al revés",
+      "Cuenta un chiste, si nadie se ríe recibe un shock ⚡️",
+      "Haz una rima improvisada usando el nombre de tres jugadores",
+      "Nombra a 5 animales que empiecen con la letra L",
+      "Di las capitales de todos los países de Sudamérica",
+      "Baila una canción que te guste en frente de todos",
+>>>>>>> 79f2d34 (actualización preguntas desafio)
   ];
 
   List<String> retosExtremos = [
