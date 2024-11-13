@@ -210,48 +210,105 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage>
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.blue[800], // Cambiar el color de fondo
-          title: Center(
-              child: Text('Es turno de $nombreSeleccionado',
-                  style: TextStyle(color: Colors.white))),
-          content: SizedBox(
-            width: 250, // Establecer un ancho máximo para el contenido
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                    child: Text(reto, style: TextStyle(color: Colors.white))),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child:
-                          Text('Shot', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(width: 10),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child:
-                          Text('Shock', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(width: 10),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Continuar',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ],
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.pinkAccent.shade400, // Color neón rosado
+                  Colors.blueAccent.shade400, // Color neón azul
+                  Colors.greenAccent.shade400, // Color neón verde
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              // Borde interno para el efecto de borde neón
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.blueAccent.withOpacity(0.5),
+                  blurRadius: 20,
+                  spreadRadius: 5,
                 ),
               ],
+            ),
+            padding: EdgeInsets.all(3),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blue[900],
+                borderRadius: BorderRadius.circular(17),
+              ),
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Text(
+                      'Es turno de $nombreSeleccionado',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 10,
+                            color: Colors.pinkAccent,
+                            offset: Offset(1, 1),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    reto,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10,
+                          color: Colors.blueAccent,
+                          offset: Offset(1, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child:
+                            Text('Shot', style: TextStyle(color: Colors.white)),
+                      ),
+                      SizedBox(width: 10),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Shock',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      SizedBox(width: 10),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Continuar',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );
