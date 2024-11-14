@@ -86,27 +86,24 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: AnimatedOpacity(
-          opacity: _showTitle ? 1.0 : 0.0, 
+          opacity: _showTitle ? 1.0 : 0.0,
           duration: const Duration(seconds: 1),
           child: Center(
-            child: Text(
-              '¡Bienvenido a Tragovoltaje!',
-              style: TextStyle(
-                color: Colors.white,
-              )
-            )
-          ),
+              child: Text('¡Bienvenido a Tragovoltaje!',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ))),
         ),
         actions: [
           PopupMenuButton<int>(
             icon: const Icon(Icons.settings),
             onSelected: _navigateToPage,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
-              const PopupMenuItem <int>(
+              const PopupMenuItem<int>(
                 value: 0,
                 child: Text('Siguenos en redes sociales'),
               ),
-              const PopupMenuItem <int>(
+              const PopupMenuItem<int>(
                 value: 1,
                 child: Text('Terminos de servicio'),
               ),
@@ -132,12 +129,12 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
               padding: const EdgeInsets.all(16.0),
-              color: Colors.blue,
+              color: const Color.fromARGB(255, 0, 0, 0),
               alignment: Alignment.centerLeft,
               child: const Text(
                 'Menú',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 255, 255, 255),
                   fontSize: 18,
                 ),
               ),
