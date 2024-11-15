@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: const Text('Modo de Juegos'),
+              title: const Text('Modos de Juego'),
               onTap: () {
                 _onItemTapped(2);
                 Navigator.pop(context);
