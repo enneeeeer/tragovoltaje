@@ -7,11 +7,23 @@ class Premium extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CONOCE LA VERSION PREMIUM'),
-        titleTextStyle:
-            TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 24),
+        title: const Text(
+          'CONOCE LA VERSION PREMIUM',
+          style: TextStyle(
+            fontSize: 24,
+            color: Color.fromARGB(255, 123, 221, 93),
+            fontWeight: FontWeight.bold,
+            shadows: [
+              Shadow(
+                blurRadius: 10.0,
+                color: Color.fromARGB(255, 85, 185, 108),
+                offset: Offset(0.0, 0.0),
+              ),
+            ],
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        backgroundColor: Color.fromARGB(255, 0, 0, 0),
       ),
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: SingleChildScrollView(
@@ -29,9 +41,17 @@ class Premium extends StatelessWidget {
                       const EdgeInsets.all(15.0), // Espacio dentro de la caja
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(
-                        255, 121, 121, 139), // Color de fondo de la caja
+                        255, 0, 0, 0), // Color de fondo de la caja
                     borderRadius:
                         BorderRadius.circular(10), // Bordes redondeados
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.greenAccent, // Color del borde neón
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: const Offset(0, 0), // Sombra difusa
+                      ),
+                    ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +59,7 @@ class Premium extends StatelessWidget {
                       Text(
                         '• Ten la aplicación sin anuncios.',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 18,
                         ),
                       ),
@@ -48,7 +68,7 @@ class Premium extends StatelessWidget {
                       Text(
                         '• Desbloquea el modo extremo:',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 18,
                         ),
                       ),
@@ -57,7 +77,7 @@ class Premium extends StatelessWidget {
                       Text(
                         '  Más preguntas potentes...',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 14,
                         ),
                       ),
@@ -75,11 +95,10 @@ class Premium extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // Acción a realizar al presionar el botón "Plan Mensual"
-                    // (Agregar lógica aquí si se requiere)
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
-                        255, 15, 25, 72), // Color de fondo del botón
+                        255, 47, 100, 36), // Color de fondo del botón
                     padding: const EdgeInsets.symmetric(
                         vertical: 15), // Solo padding vertical
                   ),
@@ -102,13 +121,13 @@ class Premium extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // Acción a realizar al presionar el botón "Plan Anual"
-                    // (Agregar lógica aquí si se requiere)
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
-                        255, 15, 25, 72), // Color de fondo del botón
+                        255, 47, 100, 36), // Color de fondo del botón
                     padding: const EdgeInsets.symmetric(
                         vertical: 15), // Solo padding vertical
+                    // Elevación para mayor neón
                   ),
                   child: const Text(
                     'ADQUIRIR PLAN ANUAL', // Texto dentro del botón
