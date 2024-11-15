@@ -185,10 +185,21 @@ class RuletaPainter extends CustomPainter {
       Colors.orange,
       Colors.blueGrey,
       Colors.purple,
+      Colors.deepPurpleAccent,
       Colors.teal,
       Colors.pink,
       Colors.grey,
-      Colors.black,
+      Colors.deepOrange,
+      Colors.greenAccent,
+      Colors.lightGreenAccent,
+      Colors.lightBlue,
+      Colors.lightBlueAccent,
+      Colors.deepPurple,
+      Colors.deepOrangeAccent,
+      Colors.amber,
+      Colors.cyanAccent,
+      Colors.redAccent,
+      Colors.pinkAccent,
     ];
 
     for (int i = 0; i < nombres.length; i++) {
