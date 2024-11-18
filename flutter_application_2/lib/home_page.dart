@@ -96,78 +96,88 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           PopupMenuButton<int>(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.settings, color: Colors.white),
             onSelected: _navigateToPage,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
               const PopupMenuItem<int>(
                 value: 0,
-                child: Text('Siguenos en redes sociales'),
+                child: Text('Síguenos en redes sociales', style: TextStyle(color: Colors.white)),
               ),
               const PopupMenuItem<int>(
                 value: 1,
-                child: Text('Terminos de servicio'),
+                child: Text('Términos de servicio', style: TextStyle(color: Colors.white)),
               ),
               const PopupMenuItem<int>(
                 value: 2,
-                child: Text('Modo de uso'),
+                child: Text('Modo de uso', style: TextStyle(color: Colors.white)),
               ),
               const PopupMenuItem<int>(
                 value: 3,
-                child: Text('Ayuda'),
+                child: Text('Ayuda', style: TextStyle(color: Colors.white)),
               ),
               const PopupMenuItem<int>(
                 value: 4,
-                child: Text('Version actual'),
+                child: Text('Versión actual', style: TextStyle(color: Colors.white)),
               ),
             ],
+            color: Colors.blueGrey[900], // Fondo del PopupMenu
           ),
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              color: const Color.fromARGB(255, 0, 0, 0),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Menú',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 18,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueAccent, Colors.purpleAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                  'Menú',
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            ListTile(
-              title: const Text('Conectar pulsera'),
-              onTap: () {
-                _onItemTapped(0);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Controlar voltaje'),
-              onTap: () {
-                _onItemTapped(1);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Modos de Juego'),
-              onTap: () {
-                _onItemTapped(2);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Version Premium'),
-              onTap: () {
-                _onItemTapped(3);
-                Navigator.pop(context);
-              },
-            ),
-          ],
+              ListTile(
+                title: const Text('Conectar pulsera', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  _onItemTapped(0);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Controlar voltaje', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  _onItemTapped(1);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Modos de Juego', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  _onItemTapped(2);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Versión Premium', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  _onItemTapped(3);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ),
       ),
       body: Center(
