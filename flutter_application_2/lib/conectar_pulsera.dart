@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 
 class ConectarPulsera extends StatelessWidget {
   const ConectarPulsera({super.key});
+
+  void _openBluetoothSettings() {
+    const intent = AndroidIntent(
+      action: 'android.settings.BLUETOOTH_SETTINGS',
+      flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+    );
+    intent.launch();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +56,7 @@ class ConectarPulsera extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
               backgroundColor: Colors.amber[700],
             ),
-            onPressed: () {
-              // Boton sin funcionamiento por ahora
-            },
+            onPressed: _openBluetoothSettings,
             child: Text(
               'CONECTAR',
               style: TextStyle(
