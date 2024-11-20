@@ -155,6 +155,7 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
   }
 
   void _handleTap(Offset position) {
+    if (_nombres.isEmpty) return;
     // Determinar si se ha tocado un segmento de la ruleta
     double anglePerSegment = 2 * pi / _nombres.length;
     double centerX = 100; // Centro de la ruleta

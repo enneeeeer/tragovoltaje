@@ -47,15 +47,12 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            // Fondo GIF animado
             Image.asset(
-              "assets/images/rayo.gif", // Ruta del GIF en assets
+              "assets/images/rayo.gif",
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
             ).animate(onPlay: (controller) => controller.repeat()),
-            
-            // Contenido principal de la página
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -63,7 +60,7 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
                 children: [
                   Text(
                     'Agrega nombres a la ruleta:',
-                    style: TextStyle(fontSize: 24, color: Colors.lightBlue),
+                    style: TextStyle(fontSize: 24, color: Colors.lightBlue, fontFamily: 'Roboto'),
                   ),
                   SizedBox(height: 20),
                   TextField(
@@ -74,6 +71,8 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
                       hintText: 'Ingresa un nombre',
                       filled: true,
                       fillColor: Colors.white,
+                      labelStyle: TextStyle(color: Colors.lightBlue),
+                      hintStyle: TextStyle(color: Colors.grey),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -82,35 +81,43 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
                       String name = _controller.text;
                       if (name.isNotEmpty) {
                         setState(() {
-                          _nombres.add(name); // Agregar el nombre a la lista
+                          _nombres.add(name);
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('$name agregado a la ruleta')),
+                          SnackBar(content: Text('$name agregado a la ruleta'), duration: Duration(milliseconds: 750)),
                         );
-                        _controller.clear(); // Limpiar el campo de texto
+                        _controller.clear();
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.lightBlue,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                     ),
-                    child: Text('Agregar Nombre'),
+                    child: Text('Agregar Nombre', style: TextStyle(fontSize: 18)),
                   ),
                   SizedBox(height: 20),
-                  // Ruleta con imagen central
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      SizedBox(
-                        height: 200,
-                        width: 200,
-                        child: CustomPaint(
-                          painter: RuletaPainter(nombres: _nombres),
+                      GestureDetector(
+                        onTapDown: (details) {
+                          _handleTap(details.localPosition);
+                        },
+                        child: SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: CustomPaint(
+                            painter: RuletaPainter(nombres: _nombres),
+                          ),
                         ),
                       ),
                       ClipOval(
                         child: Image.asset(
-                          'assets/images/rayo.png', // Ruta de la imagen
+                          'assets/images/rayo.png',
                           height: 50,
                           width: 50,
                           fit: BoxFit.cover,
@@ -118,10 +125,9 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20), // Para empujar el botón hacia abajo
+                  SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      // Navegar a la nueva página de la ruleta
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -131,9 +137,13 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                     ),
-                    child: Text('Jugar'),
+                    child: Text('Jugar', style: TextStyle(fontSize: 18)),
                   ),
                 ],
               ),
@@ -141,6 +151,36 @@ class _ModoConfesionesPageState extends State<ModoConfesionesPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _handleTap(Offset position) {
+    if (_nombres.isEmpty) return;
+    // Determinar si se ha tocado un segmento de la ruleta
+    double anglePerSegment = 2 * pi / _nombres.length;
+    double centerX = 100; // Centro de la ruleta
+    double centerY = 100; // Centro de la ruleta
+
+    // Calcular el ángulo del toque
+    double touchAngle = atan2(position.dy - centerY, position.dx - centerX);
+    if (touchAngle < 0) {
+      touchAngle += 2 * pi; // Asegurarse de que el ángulo esté en el rango [0, 2π]
+    }
+
+    // Determinar el índice del segmento tocado
+    int touchedIndex = (touchAngle / anglePerSegment).floor() % _nombres.length;
+
+    // Obtener el nombre que se va a eliminar
+    String nombreEliminado = _nombres[touchedIndex];
+
+    // Eliminar el nombre si se toca
+    setState(() {
+      _nombres.removeAt(touchedIndex);
+    });
+
+    // Mostrar el nombre eliminado en el SnackBar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$nombreEliminado eliminado de la ruleta'), duration: Duration(milliseconds: 750)),
     );
   }
 }
