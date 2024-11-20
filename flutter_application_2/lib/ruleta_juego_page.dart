@@ -383,7 +383,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage>
                         child:
                             Text('Shot', style: TextStyle(color: Colors.white)),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 5),
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -391,7 +391,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage>
                         child: Text('Shock',
                             style: TextStyle(color: Colors.white)),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 5),
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
