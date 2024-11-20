@@ -23,100 +23,102 @@ class _ModoAventuraPageState extends State<ModoAventuraPage> {
         elevation: 0,
         title: Text('Bienvenido al Modo Aventura'),
       ),
-      body: Stack(
-        children: [
-          // Fondo GIF animado
-          Image.asset(
-            "assets/images/rayo.gif", // Ruta del GIF en assets
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ).animate(onPlay: (controller) => controller.repeat()),
-          
-          // Contenido principal de la página
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Agrega nombres a la ruleta:',
-                  style: TextStyle(fontSize: 24, color: Colors.lightBlue),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Nombre',
-                    hintText: 'Ingresa un nombre',
-                    filled: true,
-                    fillColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            // Fondo GIF animado
+            Image.asset(
+              "assets/images/rayo.gif", // Ruta del GIF en assets
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ).animate(onPlay: (controller) => controller.repeat()),
+            
+            // Contenido principal de la página
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Agrega nombres a la ruleta:',
+                    style: TextStyle(fontSize: 24, color: Colors.lightBlue),
                   ),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    String name = _controller.text;
-                    if (name.isNotEmpty) {
-                      setState(() {
-                        _nombres.add(name); // Agregar el nombre a la lista
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('$name agregado a la ruleta')),
+                  SizedBox(height: 20),
+                  TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Nombre',
+                      hintText: 'Ingresa un nombre',
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      String name = _controller.text;
+                      if (name.isNotEmpty) {
+                        setState(() {
+                          _nombres.add(name); // Agregar el nombre a la lista
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('$name agregado a la ruleta')),
+                        );
+                        _controller.clear(); // Limpiar el campo de texto
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue,
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    ),
+                    child: Text('Agregar Nombre'),
+                  ),
+                  SizedBox(height: 20),
+                  // Ruleta con imagen central
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        height: 200,
+                        width: 200,
+                        child: CustomPaint(
+                          painter: RuletaPainter(nombres: _nombres),
+                        ),
+                      ),
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/images/rayo.png', // Ruta de la imagen
+                          height: 50,
+                          width: 50,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20), // Para empujar el botón hacia abajo
+                  ElevatedButton(
+                    onPressed: () {
+                      // Navegar a la nueva página de la ruleta
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RuletaJuegoPage(nombres: _nombres, modo: 'aventura'),
+                        ),
                       );
-                      _controller.clear(); // Limpiar el campo de texto
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  ),
-                  child: Text('Agregar Nombre'),
-                ),
-                SizedBox(height: 20),
-                // Ruleta con imagen central
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: CustomPaint(
-                        painter: RuletaPainter(nombres: _nombres),
-                      ),
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     ),
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/images/rayo.png', // Ruta de la imagen
-                        height: 50,
-                        width: 50,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20), // Para empujar el botón hacia abajo
-                ElevatedButton(
-                  onPressed: () {
-                    // Navegar a la nueva página de la ruleta
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RuletaJuegoPage(nombres: _nombres, modo: 'aventura'),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    child: Text('Jugar'),
                   ),
-                  child: Text('Jugar'),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

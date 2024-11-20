@@ -23,110 +23,112 @@ class _ModoExtremoPageState extends State<ModoExtremoPage> {
         elevation: 0,
         title: Text('Bienvenido al Modo Extremo', style: TextStyle(fontFamily: 'Roboto')),
       ),
-      body: Stack(
-        children: [
-          Image.asset(
-            "assets/images/fuego.gif",
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ).animate(onPlay: (controller) => controller.repeat()),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Agrega nombres a la ruleta:',
-                  style: TextStyle(fontSize: 24, color: Colors.lightBlue, fontFamily: 'Roboto'),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Nombre',
-                    hintText: 'Ingresa un nombre',
-                    filled: true,
-                    fillColor: Colors.white,
-                    labelStyle: TextStyle(color: Colors.lightBlue),
-                    hintStyle: TextStyle(color: Colors.grey),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Image.asset(
+              "assets/images/fuego.gif",
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ).animate(onPlay: (controller) => controller.repeat()),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Agrega nombres a la ruleta:',
+                    style: TextStyle(fontSize: 24, color: Colors.lightBlue, fontFamily: 'Roboto'),
                   ),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    String name = _controller.text;
-                    if (name.isNotEmpty) {
-                      setState(() {
-                        _nombres.add(name);
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('$name agregado a la ruleta'), duration: Duration(milliseconds: 750)),
-                      );
-                      _controller.clear();
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                  SizedBox(height: 20),
+                  TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Nombre',
+                      hintText: 'Ingresa un nombre',
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelStyle: TextStyle(color: Colors.lightBlue),
+                      hintStyle: TextStyle(color: Colors.grey),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   ),
-                  child: Text('Agregar Nombre', style: TextStyle(fontSize: 18)),
-                ),
-                SizedBox(height: 20),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    GestureDetector(
-                      onTapDown: (details) {
-                        _handleTap(details.localPosition);
-                      },
-                      child: SizedBox(
-                        height: 200,
-                        width: 200,
-                        child: CustomPaint(
-                          painter: RuletaPainter(nombres: _nombres),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      String name = _controller.text;
+                      if (name.isNotEmpty) {
+                        setState(() {
+                          _nombres.add(name);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('$name agregado a la ruleta'), duration: Duration(milliseconds: 750)),
+                        );
+                        _controller.clear();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    ),
+                    child: Text('Agregar Nombre', style: TextStyle(fontSize: 18)),
+                  ),
+                  SizedBox(height: 20),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      GestureDetector(
+                        onTapDown: (details) {
+                          _handleTap(details.localPosition);
+                        },
+                        child: SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: CustomPaint(
+                            painter: RuletaPainter(nombres: _nombres),
+                          ),
                         ),
                       ),
-                    ),
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/images/rayo.png',
-                        height: 50,
-                        width: 50,
-                        fit: BoxFit.cover,
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/images/rayo.png',
+                          height: 50,
+                          width: 50,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RuletaJuegoPage(nombres: _nombres, modo: 'extremo'),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    ],
                   ),
-                  child: Text('Jugar', style: TextStyle(fontSize: 18)),
-                ),
-              ],
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RuletaJuegoPage(nombres: _nombres, modo: 'extremo'),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    ),
+                    child: Text('Jugar', style: TextStyle(fontSize: 18)),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
