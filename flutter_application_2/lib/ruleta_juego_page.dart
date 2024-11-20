@@ -302,6 +302,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage>
     }
 
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return Dialog(
