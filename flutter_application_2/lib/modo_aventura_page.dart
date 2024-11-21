@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_animate/flutter_animate.dart'; // Importa flutter_animate para animaciones
 import 'ruleta_juego_page.dart'; // Importar la nueva página
-import 'dart:async';
 
 class ModoAventuraPage extends StatefulWidget {
   const ModoAventuraPage({super.key});
@@ -14,17 +13,6 @@ class ModoAventuraPage extends StatefulWidget {
 class _ModoAventuraPageState extends State<ModoAventuraPage> {
   final TextEditingController _controller = TextEditingController();
   final List<String> _nombres = [];
-  bool _showTitle = true;
-
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 3), () {
-      setState(() {
-        _showTitle = false;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +21,6 @@ class _ModoAventuraPageState extends State<ModoAventuraPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: AnimatedOpacity(
-          opacity: _showTitle ? 1.0 : 0.0,
-          duration: const Duration(seconds: 1),
-          child: Center(
-              child: Text('¡Bienvenido al Modo Aventura!',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Roboto'
-                  ))),
-        ),
       ),
       body: SingleChildScrollView(
         child: Stack(
