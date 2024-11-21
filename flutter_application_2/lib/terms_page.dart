@@ -8,149 +8,120 @@ class TermsOfServicePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Términos de servicio'),
+        backgroundColor: Colors.indigo,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Container(
-          padding: EdgeInsets.all(16.0),
-          margin: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 8,
+                offset: Offset(0, 4),
+              ),
+            ],
           ),
           child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Términos y Condiciones',
-                  style: TextStyle(
+                Center(
+                  child: Text(
+                    'Términos y Condiciones',
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 212, 78, 224)),
+                      color: Colors.indigo,
+                    ),
+                  ),
                 ),
+                SizedBox(height: 10),
                 Text(
-                  'Última actualización',
-                  textAlign: TextAlign.right,
+                  'Última actualización: Noviembre 2024',
                   style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey.shade600,
+                  ),
                 ),
-                Text(
-                  'Bienvenido/a a Tragovoltaje. Te agradecemos por descargar nuestra aplicación y confiar en nosotros para ser parte de tus reuniones sociales. Antes de comenzar, es importante que leas cuidadosamente estos términos y condiciones. Al descargar, instalar o utilizar nuestra aplicación, aceptas estar de acuerdo con ellos en su totalidad. Si no estás de acuerdo con algún punto, te pedimos que no utilices la aplicación ni sus servicios. “Tragovoltaje” se refiere a la aplicación móvil y al dispositivo asociado (pulsera) diseñado para entretenimiento en reuniones sociales. “Usuario” es la persona que utiliza la aplicación. “Nosotros” o “la empresa” se refiere a "Tragovoltaje".',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
+                Divider(color: Colors.grey.shade300, thickness: 1),
+                SizedBox(height: 10),
+                _buildSection(
+                  '1. Uso de la aplicación',
+                  'Tragovoltaje está destinada exclusivamente a fines recreativos y sociales. Al utilizar la aplicación, aceptas lo siguiente:\n\n- Ser mayor de 18 años o tener supervisión de un adulto.\n- Abstenerte de usos indebidos, peligrosos o ilegales.\n- Utilizar dentro de los límites especificados.',
                 ),
-                Text(
-                  '1.Uso de la aplicación',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
+                _buildSection(
+                  '2. Advertencias de Seguridad',
+                  'La pulsera Tragovoltaje emite ligeras descargas eléctricas. Es fundamental:\n\n- Leer las instrucciones detalladas.\n- Ajustar la intensidad de manera responsable.\n- No usar en personas con problemas de salud delicados, como problemas cardíacos.',
                 ),
-                Text(
-                  'Tragovoltaje está destinada exclusivamente a fines recreativos y sociales. Su uso debe realizarse de manera responsable y conforme a lo previsto en estos términos. Al utilizar la aplicación, aceptas lo siguiente: Ser mayor de 18 años. En caso contrario, se requiere supervisión directa de un adulto. Abstenerte de usar la aplicación para actividades ilegales, peligrosas o no previstas, como usos indebidos en contextos médicos. Utilizar tanto la aplicación como la pulsera dentro de los límites especificados en este documento.',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
-                ),
-                Text(
-                  '2.Advertencias de Seguridad',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
-                ),
-                Text(
-                  'La pulsera Tragovoltaje emite ligeras descargas eléctricas como parte de su funcionalidad. Es fundamental: Leer las instrucciones detalladas disponibles en la aplicación y el manual del producto. Ajustar la intensidad de las descargas a niveles cómodos, especialmente si se utiliza por primera vez. No usar la pulsera en personas con condiciones de salud delicadas, como problemas cardíacos, marcapasos, epilepsia o sensibilidad eléctrica. Evitar su uso en menores de edad, salvo que estén bajo supervisión directa de un adulto. ',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
-                ),
-                Text(
+                _buildSection(
                   '3. Requisitos de Uso',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
+                  'Para un correcto funcionamiento:\n\n- Tener un dispositivo compatible con Bluetooth.\n- Permitir permisos necesarios como Bluetooth y almacenamiento.\n- Mantener una conexión a internet activa.',
                 ),
-                Text(
-                  'Para garantizar el correcto funcionamiento de Tragovoltaje, asegúrate de cumplir con los siguientes requisitos: Tener un dispositivo compatible con Bluetooth y con la aplicación instalada desde una fuente oficial, como App Store o Google Play. Permitir los permisos necesarios en tu dispositivo, como acceso a Bluetooth, almacenamiento y notificaciones. Contar con una conexión a internet para acceder a actualizaciones, modos premium y funciones adicionales.',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
+                _buildSection(
+                  '4. Modos de Juego y Compras Premium',
+                  'Tragovoltaje ofrece modos de juego gratuitos y premium, como niveles personalizados para una experiencia más completa.',
                 ),
-                Text(
-                  '4. Modos de Juego y compras Premium',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
-                ),
-                Text(
-                  'Tragovoltaje ofrece diversos modos de juego gratuitos, así como opciones premium para una experiencia más completa: Incluyen mas modos y el nivel personalizado.',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
-                ),
-                Text(
+                _buildSection(
                   '5. Limitación de Responsabilidad',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
+                  'No somos responsables por daños o problemas derivados del uso indebido de la aplicación o la pulsera. Es tu responsabilidad garantizar el uso seguro.',
                 ),
-                Text(
-                  'No nos hacemos responsables por daños, lesiones o problemas de salud que resulten del uso indebido de la pulsera o la aplicación. ampoco asumimos responsabilidad por interrupciones en el servicio, problemas técnicos derivados de dispositivos incompatibles, ni por pérdidas de datos. Es responsabilidad del usuario asegurarse de utilizar la aplicación de manera segura y de acuerdo con las instrucciones.',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
-                ),
-                Text(
+                _buildSection(
                   '6. Privacidad y Datos Personales',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
+                  'Recopilamos ciertos datos, como estadísticas de uso. Manejamos tus datos de manera segura, sin compartirlos con terceros sin tu consentimiento.',
                 ),
-                Text(
-                  'Para mejorar tu experiencia, Tragovoltaje recopila ciertos datos, como estadísticas de uso, preferencias y configuración. Estos datos se manejan de manera segura y en conformidad con nuestra Política de Privacidad: No compartimos datos personales con terceros sin tu consentimiento, salvo cuando sea requerido por la ley. Puedes revisar, actualizar o eliminar tus datos en cualquier momento desde la configuración de la aplicación o contactándonos directamente.',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
-                ),
-                Text(
+                _buildSection(
                   '7. Modificaciones en los Términos',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
+                  'Nos reservamos el derecho de modificar estos términos. Notificaremos cambios a través de la aplicación.',
                 ),
-                Text(
-                  'Nos reservamos el derecho de modificar estos términos en cualquier momento para mejorar nuestros servicios o cumplir con nuevas regulaciones. Notificaremos cualquier cambio a través de la aplicación, y el uso continuo de la misma implicará tu aceptación de los nuevos términos.',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
-                ),
-                Text(
-                  'Aceptación de los Términos',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: const Color.fromARGB(255, 46, 40, 40)),
-                ),
-                Text(
-                  'Al utilizar Tragovoltaje, confirmas haber leído, entendido y aceptado estos términos y condiciones. ¡Gracias por elegirnos para llevar más diversión y emoción a tus reuniones sociales!',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: const Color.fromARGB(255, 58, 56, 56)),
+                SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Gracias por elegir Tragovoltaje para tus reuniones sociales.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.indigo,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSection(String title, String content) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.indigo.shade700,
+            ),
+          ),
+          SizedBox(height: 6),
+          Text(
+            content,
+            style: TextStyle(
+              fontSize: 14,
+              height: 1.5,
+              color: Colors.grey.shade800,
+            ),
+          ),
+        ],
       ),
     );
   }
