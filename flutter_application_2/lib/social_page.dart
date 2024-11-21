@@ -9,8 +9,6 @@ class SocialMediaPage extends StatelessWidget {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
     }
   }
 
@@ -46,6 +44,15 @@ class SocialMediaPage extends StatelessWidget {
               onTap: () => _launchURL('https://www.tiktok.com'),
               child: FaIcon(
                 FontAwesomeIcons.tiktok,
+                size: 50,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 40),
+            GestureDetector(
+              onTap: () => _launchURL('https://www.google.com'),
+              child: FaIcon(
+                FontAwesomeIcons.google,
                 size: 50,
                 color: Colors.black,
               ),
