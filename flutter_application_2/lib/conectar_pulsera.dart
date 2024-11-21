@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';  
 
 class ConectarPulsera extends StatelessWidget {
   const ConectarPulsera({super.key});
 
-  void _openBluetoothSettings() {
+  void _openBluetoothSettings() async{
+    try {
+    await FlutterBluePlus.turnOn();
     const intent = AndroidIntent(
       action: 'android.settings.BLUETOOTH_SETTINGS',
       flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
     );
     intent.launch();
+    } catch (e) {
+      const intent = AndroidIntent(
+      action: 'android.settings.BLUETOOTH_SETTINGS',
+      flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+    );
+    intent.launch();
+    }
   }
 
   @override
