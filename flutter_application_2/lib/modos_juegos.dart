@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'modo_basico_page.dart'; // Importar la nueva página
-import 'modo_aventura_page.dart'; // Importar la nueva página
-import 'modo_confesiones_page.dart'; // Importar la nueva página
-import 'modo_desafio_page.dart'; // Importar la nueva página
-import 'modo_extremo_page.dart'; // Importar la nueva página
+import 'modo_basico_page.dart'; 
+import 'modo_aventura_page.dart'; 
+import 'modo_confesiones_page.dart'; 
+import 'modo_desafio_page.dart'; 
+import 'modo_extremo_page.dart'; 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class ModosJuego extends StatelessWidget {
+class ModosJuego extends StatefulWidget {
   const ModosJuego({super.key});
+  @override
+  State<ModosJuego> createState() => _ModosJuego();
+}
+
+class _ModosJuego extends State<ModosJuego>{
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +62,44 @@ class ModosJuego extends StatelessWidget {
   }
 }
 
-class GameModeCard extends StatelessWidget {
+class GameModeCard extends StatefulWidget {
+  final String text;
+  final String image;
+  GameModeCard({required this.text, required this.image});
+  @override
+  State<GameModeCard> createState() => _GameModeCard(text: text, image: image);
+}
+
+class _GameModeCard extends State<GameModeCard> {
+  _GameModeCard({required this.text, required this.image});
   final String text;
   final String image;
 
-  GameModeCard({required this.text, required this.image});
+  InterstitialAd? _interstitialAd;
+
+  final adUnitId = 'ca-app-pub-3940256099942544/1033173712';
+
+  @override
+  void initState() {
+    super.initState();
+    loadAd(); // Cargar el anuncio cuando se inicializa el widget
+  }
+
+  /// Loads an interstitial ad.
+  void loadAd() {
+    InterstitialAd.load(
+        adUnitId: adUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            debugPrint('$ad loaded.');
+            _interstitialAd = ad;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,14 +113,29 @@ class GameModeCard extends StatelessWidget {
         onTap: () {
           // Navegar a la nueva página de Ruleta
           if (text == 'Modo básico') {  
+            if (_interstitialAd != null) {
+              _interstitialAd!.show();
+            }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoBasicoPage()));  
           } else if (text == 'Modo aventura') {  
+            if (_interstitialAd != null) {
+              _interstitialAd!.show();
+            }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoAventuraPage()));  
           } else if (text == 'Modo desafío') {  
+            if (_interstitialAd != null) {
+              _interstitialAd!.show();
+            }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoDesafioPage()));  
           } else if (text == 'Modo confesiones') {  
+            if (_interstitialAd != null) {
+              _interstitialAd!.show();
+            }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoConfesionesPage()));  
           } else if (text == 'Modo Extremo') {  
+            if (_interstitialAd != null) {
+              _interstitialAd!.show();
+            }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoExtremoPage()));  
           }
         },
