@@ -76,7 +76,7 @@ class _GameModeCard extends State<GameModeCard> {
   final String image;
 
   InterstitialAd? _interstitialAd;
-
+  bool _isLoadedInterstitial = false;
   final adUnitId = 'ca-app-pub-3940256099942544/1033173712';
 
   @override
@@ -94,6 +94,25 @@ class _GameModeCard extends State<GameModeCard> {
           onAdLoaded: (ad) {
             debugPrint('$ad loaded.');
             _interstitialAd = ad;
+            setState(() {
+              _isLoadedInterstitial = true;
+            });
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              onAdFailedToShowFullScreenContent: (ad, error) {
+                ad.dispose();
+                setState(() {
+                  _isLoadedInterstitial = false;
+                });
+                loadAd();
+              },
+              onAdDismissedFullScreenContent: (ad) {
+                ad.dispose();
+                setState(() {
+                  _isLoadedInterstitial = false;
+                });
+                loadAd();
+              }
+            );
           },
           onAdFailedToLoad: (LoadAdError error) {
             debugPrint('InterstitialAd failed to load: $error');
@@ -113,27 +132,27 @@ class _GameModeCard extends State<GameModeCard> {
         onTap: () {
           // Navegar a la nueva página de Ruleta
           if (text == 'Modo básico') {  
-            if (_interstitialAd != null) {
+            if (_isLoadedInterstitial) {
               _interstitialAd!.show();
             }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoBasicoPage()));  
           } else if (text == 'Modo aventura') {  
-            if (_interstitialAd != null) {
+            if (_isLoadedInterstitial) {
               _interstitialAd!.show();
             }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoAventuraPage()));  
           } else if (text == 'Modo desafío') {  
-            if (_interstitialAd != null) {
+            if (_isLoadedInterstitial) {
               _interstitialAd!.show();
             }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoDesafioPage()));  
           } else if (text == 'Modo confesiones') {  
-            if (_interstitialAd != null) {
+            if (_isLoadedInterstitial) {
               _interstitialAd!.show();
             }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoConfesionesPage()));  
           } else if (text == 'Modo Extremo') {  
-            if (_interstitialAd != null) {
+            if (_isLoadedInterstitial) {
               _interstitialAd!.show();
             }
             Navigator.push(context, MaterialPageRoute(builder: (context) => ModoExtremoPage()));  
