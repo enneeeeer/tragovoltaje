@@ -1,6 +1,9 @@
+import 'package:TragoVoltaje/bluetooth_manager.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:provider/provider.dart';
 
 class RuletaJuegoPage extends StatefulWidget {
   final List<String> nombres;
@@ -14,6 +17,7 @@ class RuletaJuegoPage extends StatefulWidget {
 
 class _RuletaJuegoPageState extends State<RuletaJuegoPage>
     with SingleTickerProviderStateMixin {
+  BluetoothConnection? connection;
   late AnimationController _controller;
   late Animation<double> _animation;
   double _angle = 0;
@@ -387,6 +391,8 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage>
                       SizedBox(width: 5),
                       TextButton(
                         onPressed: () {
+                          final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false);
+                          bluetoothModel.sendMessage('1/n');
                           Navigator.of(context).pop();
                         },
                         child: Text('Shock',

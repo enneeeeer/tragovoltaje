@@ -1,33 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:android_intent_plus/android_intent.dart';
-import 'package:android_intent_plus/flag.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';  
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' hide BluetoothDevice;  
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:TragoVoltaje/bluetooth_manager.dart';
+import 'package:provider/provider.dart';
 
-class ConectarPulsera extends StatelessWidget {
+class ConectarPulsera extends StatefulWidget {
   const ConectarPulsera({super.key});
 
-  void _openBluetoothSettings() async{
-    try {
-    await FlutterBluePlus.turnOn();
-    const intent = AndroidIntent(
-      action: 'android.settings.BLUETOOTH_SETTINGS',
-      flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
-    );
-    intent.launch();
-    } catch (e) {
-      const intent = AndroidIntent(
-      action: 'android.settings.BLUETOOTH_SETTINGS',
-      flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
-    );
-    intent.launch();
+  @override
+  _ConectarPulseraState createState() => _ConectarPulseraState();
+}
+
+class _ConectarPulseraState extends State<ConectarPulsera> {
+  BluetoothConnection? connection;
+  BluetoothDevice? connectedDevice;
+  List<BluetoothDevice> devices = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _requestBluetoothPermission();
+    _getBondedDevices();
+  }
+
+    Future<void> _getBondedDevices() async {
+    // Listar dispositivos emparejados
+    List<BluetoothDevice> bondedDevices = await FlutterBluetoothSerial.instance.getBondedDevices();
+    setState(() {
+      devices = bondedDevices; // Almacenar dispositivos emparejados
+    });
+  }
+
+  Future<void> _requestBluetoothPermission() async {
+    var status = await Permission.bluetooth.request();
+    if (status.isGranted) {
+      // Permiso concedido, intenta encender Bluetooth
+      try {
+        await FlutterBluePlus.turnOn();
+        await Future.delayed(Duration(seconds: 1));
+        await _getBondedDevices();
+      } catch (e) {
+        // Manejar la excepción si no se puede encender Bluetooth
+        Future.delayed(Duration.zero, () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No se pudo encender Bluetooth.'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        });
+      }
+    } else {
+      // El usuario no otorgó el permiso
+      Future.delayed(Duration.zero, () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Es necesario acceder al Bluetooth para poder jugar con la pulsera.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final bluetoothModel = Provider.of<BluetoothModel>(context);
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start, // Alinear al inicio
         children: [
           Container(
             padding: EdgeInsets.all(16.0),
@@ -49,32 +91,24 @@ class ConectarPulsera extends StatelessWidget {
           SizedBox(height: 25),
           Image.asset(
             'assets/images/blutu.png', // Ruta
-            width: 150, //  ancho
+            width: 150, // ancho
             height: 150, // altura
           ),
           SizedBox(height: 25),
-          Text(
-            'Activa tu Bluetooth',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-              backgroundColor: Colors.amber[700],
-            ),
-            onPressed: _openBluetoothSettings,
-            child: Text(
-              'CONECTAR',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          DropdownButton<BluetoothDevice>(
+            hint: Text('Selecciona un dispositivo'),
+            value: connectedDevice,
+            onChanged: (BluetoothDevice? device) {
+              if (device != null) {
+                bluetoothModel.connect(device, context);
+              }
+            },
+            items: devices.map((BluetoothDevice device) {
+              return DropdownMenuItem<BluetoothDevice>(
+                value: device,
+                child: Text(device.name ?? "Desconocido"),
+              );
+            }).toList(),
           ),
         ],
       ),
