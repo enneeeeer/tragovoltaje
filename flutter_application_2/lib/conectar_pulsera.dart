@@ -96,7 +96,7 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
           ),
           SizedBox(height: 25),
           DropdownButton<BluetoothDevice>(
-            hint: Text('Selecciona un dispositivo'),
+            hint: Text('Selecciona un dispositivo', style: TextStyle(color: Colors.white),),
             value: connectedDevice,
             onChanged: (BluetoothDevice? device) {
               if (device != null) {

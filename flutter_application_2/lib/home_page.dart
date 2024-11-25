@@ -94,6 +94,16 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                   ))),
         ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu, color: Colors.white), // Cambia el color aquí
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Ahora funciona correctamente
+              },
+            );
+          },
+        ),
         actions: [
           PopupMenuButton<int>(
             icon: const Icon(Icons.settings, color: Colors.white),
