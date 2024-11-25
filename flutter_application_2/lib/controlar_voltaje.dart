@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';  
+import 'package:TragoVoltaje/bluetooth_manager.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';  
 import 'package:shared_preferences/shared_preferences.dart';  
 
 class ControlarVoltaje extends StatefulWidget {  
@@ -33,8 +35,28 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
     await prefs.setDouble('voltage', _voltageValue);  
     await prefs.setDouble('time', _timeValue);  
     ScaffoldMessenger.of(context).showSnackBar(  
-      SnackBar(content: Text('Configuraciones guardadas')),  
-    );  
+      SnackBar(content: Text('Configuraciones guardadas'), duration: Duration(seconds: 1),),  
+    );
+    final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false); 
+    if (_voltageValue == 0.0 && _timeValue == 1.0) {
+      bluetoothModel.sendMessage('1');
+    } else if (_voltageValue == 0.0 && _timeValue == 2.0) {
+      bluetoothModel.sendMessage('2');
+    } else if (_voltageValue == 0.0 && _timeValue == 3.0) {
+      bluetoothModel.sendMessage('3');
+    } else if (_voltageValue == 0.5 && _timeValue == 1.0) {
+      bluetoothModel.sendMessage('4');
+    } else if (_voltageValue == 0.5 && _timeValue == 2.0) {
+      bluetoothModel.sendMessage('5');
+    } else if (_voltageValue == 0.5 && _timeValue == 3.0) {
+      bluetoothModel.sendMessage('6');
+    } else if (_voltageValue == 1.0 && _timeValue == 1.0) {
+      bluetoothModel.sendMessage('7');
+    } else if (_voltageValue == 1.0 && _timeValue == 2.0) {
+      bluetoothModel.sendMessage('8');
+    } else if (_voltageValue == 1.0 && _timeValue == 3.0) {
+      bluetoothModel.sendMessage('9');
+    }
   }  
 
   @override  
