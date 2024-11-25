@@ -11,7 +11,7 @@ class ControlarVoltaje extends StatefulWidget {
 }  
 
 class _ControlarVoltajeState extends State<ControlarVoltaje> {  
-  double _voltageValue = 0.5; // Valor inicial para el voltaje  
+  double _voltageValue = 0.0; // Valor inicial para el voltaje  
   double _timeValue = 1.0; // Valor inicial para el tiempo  
 
   @override  
@@ -24,7 +24,7 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
   Future<void> _loadSettings() async {  
     SharedPreferences prefs = await SharedPreferences.getInstance();  
     setState(() {  
-      _voltageValue = prefs.getDouble('voltage') ?? 0.5;  
+      _voltageValue = prefs.getDouble('voltage') ?? 0.0;  
       _timeValue = prefs.getDouble('time') ?? 1.0;  
     });  
   }  
@@ -34,33 +34,31 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
     SharedPreferences prefs = await SharedPreferences.getInstance();  
     await prefs.setDouble('voltage', _voltageValue);  
     await prefs.setDouble('time', _timeValue);  
-    ScaffoldMessenger.of(context).showSnackBar(  
-      SnackBar(content: Text('Configuraciones guardadas'), duration: Duration(seconds: 1),),  
-    );
     final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false); 
     if (_voltageValue == 0.0 && _timeValue == 1.0) {
-      bluetoothModel.sendMessage('1');
+      bluetoothModel.sendConfig('1', context);
     } else if (_voltageValue == 0.0 && _timeValue == 2.0) {
-      bluetoothModel.sendMessage('2');
+      bluetoothModel.sendConfig('2', context);
     } else if (_voltageValue == 0.0 && _timeValue == 3.0) {
-      bluetoothModel.sendMessage('3');
+      bluetoothModel.sendConfig('3', context);
     } else if (_voltageValue == 0.5 && _timeValue == 1.0) {
-      bluetoothModel.sendMessage('4');
+      bluetoothModel.sendConfig('4', context);
     } else if (_voltageValue == 0.5 && _timeValue == 2.0) {
-      bluetoothModel.sendMessage('5');
+      bluetoothModel.sendConfig('5', context);
     } else if (_voltageValue == 0.5 && _timeValue == 3.0) {
-      bluetoothModel.sendMessage('6');
+      bluetoothModel.sendConfig('6', context);
     } else if (_voltageValue == 1.0 && _timeValue == 1.0) {
-      bluetoothModel.sendMessage('7');
+      bluetoothModel.sendConfig('7', context);
     } else if (_voltageValue == 1.0 && _timeValue == 2.0) {
-      bluetoothModel.sendMessage('8');
+      bluetoothModel.sendConfig('8', context);
     } else if (_voltageValue == 1.0 && _timeValue == 3.0) {
-      bluetoothModel.sendMessage('9');
+      bluetoothModel.sendConfig('9', context);
     }
   }  
 
   @override  
   Widget build(BuildContext context) {  
+    final bluetoothModel = Provider.of<BluetoothModel>(context);
     return Center(  
       child: Column(  
         mainAxisAlignment: MainAxisAlignment.center,  
@@ -98,7 +96,12 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
               ),  
             ],  
           ),  
-          SizedBox(height: 20), // Espaciado entre los sliders y el botón  
+          SizedBox(height: 20),
+          Text(
+            bluetoothModel.connectionStatus,
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+          SizedBox(height: 20), 
           ElevatedButton(  
             onPressed: _saveSettings,  
             child: Text('Guardar'),  

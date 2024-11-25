@@ -110,6 +110,11 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
               );
             }).toList(),
           ),
+          SizedBox(height: 20),
+          Text(
+            bluetoothModel.connectionStatus,
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
         ],
       ),
     );
