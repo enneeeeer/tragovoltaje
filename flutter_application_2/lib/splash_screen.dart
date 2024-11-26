@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart'; // Importa el paquete para las animaciones
 import 'home_page.dart'; // Importa home_page.dart para navegar
 
 class SplashScreen extends StatefulWidget {
@@ -45,65 +46,127 @@ class _SplashScreen extends State<SplashScreen> with SingleTickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          // Imagen de fondo que cubre toda la pantalla
-          Positioned.fill(
-            child: AnimatedOpacity(
-              opacity: _visible ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 500),
-              child: Image.asset(
-                'assets/images/lightning.jpg',
-                fit: BoxFit.cover, // Para que la imagen se adapte al tamaño de la pantalla
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFFA726), // Naranja vibrante
+              Color(0xFFEC407A), // Rosa brillante
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Stack(
+          children: [
+            // Imagen de fondo animada
+            Positioned.fill(
+              child: AnimatedOpacity(
+                opacity: _visible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
+                child: Image.asset(
+                  'assets/images/lightning.jpg',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          // Oculto cuando allVisible es false
-          Center(
-            child: Visibility(
-              visible: allVisible,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    '¿LISTO PARA ELECTRIZARTE?',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+            Center(
+              child: Visibility(
+                visible: allVisible,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Pulse(
+                        duration: const Duration(seconds: 2),
+                        child: const Text(
+                          '¿LISTO PARA ELECTRIZARTE?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto',
+                            letterSpacing: 1.5,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 20.0,
+                                color: Colors.yellow,
+                                offset: Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    const SizedBox(height: 10),
+                    // Animación de FadeIn para el subtítulo
+                    FadeIn(
+                      duration: const Duration(seconds: 1),
+                      delay: const Duration(milliseconds: 500), // Retraso para un efecto más dinámico
+                      child: Text(
+                        '⚡ TRAGOVOLTAJE ⚡',
+                        style: TextStyle(
+                          color: Colors.yellowAccent,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'RobotoMono',
+                          letterSpacing: 2.0,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 10.0,
+                              color: Colors.black54,
+                              offset: Offset(3, 3),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'TRAGOVOLTAJE',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 12, 19, 154),
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 10),
+                    // Imagen del logo con animación
+                    ZoomIn(
+                      duration: const Duration(seconds: 1),
+                      child: Image.asset(
+                        'assets/images/nuevo-logo.png',
+                        height: 250,
+                        width: 250,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Image.asset(
-                    'assets/images/logo-sin-fondo.png', // Asegúrate de tener logo.png en la carpeta assets/images
-                    height: 200,
-                    width: 200,
-                  ),
-                  ElevatedButton(
-                    onPressed: _startAnimation,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 1, 32, 143),
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                      textStyle: TextStyle(fontSize: 18),
+                    const SizedBox(height: 10),
+                    // Botón con animación de Bounce
+                    Bounce(
+                      duration: const Duration(milliseconds: 800),
+                      child: ElevatedButton(
+                        onPressed: _startAnimation,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1E88E5), // Azul vibrante
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 8.0,
+                          shadowColor: Colors.black45,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 60,
+                            vertical: 15,
+                          ),
+                        ),
+                        child: const Text(
+                          '¡EMPEZAR!',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto',
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ),
                     ),
-                    child: Text('Iniciar'),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

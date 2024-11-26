@@ -4,6 +4,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart' hide BluetoothDevice;
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:TragoVoltaje/bluetooth_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:animate_do/animate_do.dart'; // Importa el paquete para las animaciones
 
 class ConectarPulsera extends StatefulWidget {
   const ConectarPulsera({super.key});
@@ -24,7 +25,7 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
     _getBondedDevices();
   }
 
-    Future<void> _getBondedDevices() async {
+  Future<void> _getBondedDevices() async {
     // Listar dispositivos emparejados
     List<BluetoothDevice> bondedDevices = await FlutterBluetoothSerial.instance.getBondedDevices();
     setState(() {
@@ -67,55 +68,85 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
   @override
   Widget build(BuildContext context) {
     final bluetoothModel = Provider.of<BluetoothModel>(context);
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start, // Alinear al inicio
-        children: [
-          Container(
-            padding: EdgeInsets.all(16.0),
-            child: Text('CONECTA TU PULSERA',
-                style: TextStyle(
-                  fontSize: 32,
-                  color: const Color.fromARGB(255, 244, 83, 3),
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 10.0,
-                      color: const Color.fromARGB(255, 255, 162, 68),
-                      offset: Offset(0.0, 0.0),
-                    ),
-                  ],
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFFA726), // Naranja vibrante
+              Color(0xFFEC407A), // Rosa brillante
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start, // Alinear al inicio
+            children: [
+              // Animación de texto
+              Pulse(
+                duration: const Duration(seconds: 2),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text('CONECTA TU PULSERA',
+                      style: TextStyle(
+                        fontSize: 32,
+                        color: const Color.fromARGB(255, 244, 83, 3),
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 10.0,
+                            color: const Color.fromARGB(255, 255, 162, 68),
+                            offset: Offset(0.0, 0.0),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center),
                 ),
-                textAlign: TextAlign.center),
+              ),
+              SizedBox(height: 25),
+              // Imagen del logo
+              ZoomIn(
+                duration: const Duration(seconds: 1),
+                child: Image.asset(
+                  'assets/images/blutu.png', // Ruta
+                  width: 150, // ancho
+                  height: 150, // altura
+                ),
+              ),
+              SizedBox(height: 25),
+              // Dropdown para seleccionar dispositivo Bluetooth
+              FadeIn(
+                duration: const Duration(seconds: 1),
+                child: DropdownButton<BluetoothDevice>(
+                  hint: Text(
+                    'Selecciona un dispositivo',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  value: connectedDevice,
+                  onChanged: (BluetoothDevice? device) {
+                    if (device != null) {
+                      bluetoothModel.connect(device, context);
+                    }
+                  },
+                  items: devices.map((BluetoothDevice device) {
+                    return DropdownMenuItem<BluetoothDevice>(
+                      value: device,
+                      child: Text(device.name ?? "Desconocido"),
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(height: 20),
+              // Estado de la conexión
+              Text(
+                bluetoothModel.connectionStatus,
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ],
           ),
-          SizedBox(height: 25),
-          Image.asset(
-            'assets/images/blutu.png', // Ruta
-            width: 150, // ancho
-            height: 150, // altura
-          ),
-          SizedBox(height: 25),
-          DropdownButton<BluetoothDevice>(
-            hint: Text('Selecciona un dispositivo', style: TextStyle(color: Colors.white),),
-            value: connectedDevice,
-            onChanged: (BluetoothDevice? device) {
-              if (device != null) {
-                bluetoothModel.connect(device, context);
-              }
-            },
-            items: devices.map((BluetoothDevice device) {
-              return DropdownMenuItem<BluetoothDevice>(
-                value: device,
-                child: Text(device.name ?? "Desconocido"),
-              );
-            }).toList(),
-          ),
-          SizedBox(height: 20),
-          Text(
-            bluetoothModel.connectionStatus,
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          ),
-        ],
+        ),
       ),
     );
   }
