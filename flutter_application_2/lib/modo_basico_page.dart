@@ -41,16 +41,23 @@ class _ModoBasicoPageState extends State<ModoBasicoPage> {
                     style: TextStyle(fontSize: 24, color: Colors.lightBlue, fontFamily: 'Roboto'),
                   ),
                   SizedBox(height: 20),
-                  TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Nombre',
-                      hintText: 'Ingresa un nombre',
-                      filled: true,
-                      fillColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.lightBlue),
-                      hintStyle: TextStyle(color: Colors.grey),
+                 Center( // Centra el TextField en su contenedor
+                    child: SizedBox(
+                      width: 200, // Ancho deseado para el TextField
+                      height: 40, // Altura deseada para el TextField
+                      child: TextField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Nombre',
+                          hintText: 'Ingresa un nombre',
+                          filled: true,
+                          fillColor: Colors.white,
+                          labelStyle: TextStyle(color: Colors.lightBlue),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),

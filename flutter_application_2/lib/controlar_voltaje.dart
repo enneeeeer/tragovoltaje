@@ -59,63 +59,82 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
   @override  
   Widget build(BuildContext context) {  
     final bluetoothModel = Provider.of<BluetoothModel>(context);
-    return Center(  
-      child: Column(  
-        mainAxisAlignment: MainAxisAlignment.center,  
-        children: [  
-          Text(  
-            'Controles de Descargas',  
-            style: TextStyle(  
-              fontSize: 24,  
-              fontWeight: FontWeight.bold,  
-              color: Colors.white,  
-            ),  
-          ),  
-          SizedBox(height: 20), // Espaciado entre el título y los sliders  
-          Row(  
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFFA726), // Naranja vibrante
+              Color(0xFFEC407A), // Rosa vibrante
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(  
+          child: Column(  
             mainAxisAlignment: MainAxisAlignment.center,  
             children: [  
-              CustomSliderVoltage(  
-                icon: Icons.battery_charging_full,  
-                value: _voltageValue,  
-                onChanged: (value) {  
-                  setState(() {  
-                    _voltageValue = value;  
-                  });  
-                },  
+              Text(  
+                'Controles de Descargas',  
+                style: TextStyle(  
+                  fontSize: 24,  
+                  fontWeight: FontWeight.bold,  
+                  color: Colors.white,  
+                ),  
               ),  
-              SizedBox(width: 20), // Espaciado entre sliders  
-              CustomSliderTime(  
-                icon: Icons.timer,  
-                value: _timeValue,  
-                onChanged: (value) {  
-                  setState(() {  
-                    _timeValue = value;  
-                  });  
-                },  
+              SizedBox(height: 20), // Espaciado entre el título y los sliders  
+              Row(  
+                mainAxisAlignment: MainAxisAlignment.center,  
+                children: [  
+                  CustomSliderVoltage(  
+                    icon: Icons.battery_charging_full,  
+                    value: _voltageValue,  
+                    onChanged: (value) {  
+                      setState(() {  
+                        _voltageValue = value;  
+                      });  
+                    },  
+                  ),  
+                  SizedBox(width: 20), // Espaciado entre sliders  
+                  CustomSliderTime(  
+                    icon: Icons.timer,  
+                    value: _timeValue,  
+                    onChanged: (value) {  
+                      setState(() {  
+                        _timeValue = value;  
+                      });  
+                    },  
+                  ),  
+                ],  
+              ),  
+              SizedBox(height: 20),
+              Text(
+                bluetoothModel.connectionStatus,
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+              SizedBox(height: 20), 
+              ElevatedButton(  
+                onPressed: _saveSettings,  
+                child: const Text(
+                  'Guardar',
+                  style: TextStyle(
+                    color: Colors.white
+                  )
+                  ),  
+                style: ElevatedButton.styleFrom(  
+                  backgroundColor: Colors.blueAccent, // Color del botón  
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),  
+                  textStyle: TextStyle(fontSize: 18),  
+                ),  
               ),  
             ],  
           ),  
-          SizedBox(height: 20),
-          Text(
-            bluetoothModel.connectionStatus,
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          ),
-          SizedBox(height: 20), 
-          ElevatedButton(  
-            onPressed: _saveSettings,  
-            child: Text('Guardar'),  
-            style: ElevatedButton.styleFrom(  
-              backgroundColor: Colors.blueAccent, // Color del botón  
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),  
-              textStyle: TextStyle(fontSize: 18),  
-            ),  
-          ),  
-        ],  
-      ),  
-    );  
+        ),
+      ),
+    );
   }  
-}  
+}
 
 class CustomSliderVoltage extends StatelessWidget {  
   final IconData icon;  

@@ -12,50 +12,60 @@ class ModosJuego extends StatefulWidget {
   State<ModosJuego> createState() => _ModosJuego();
 }
 
-class _ModosJuego extends State<ModosJuego>{
-
+class _ModosJuego extends State<ModosJuego> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'EMPIEZA A JUGAR',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.lightBlue,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    blurRadius: 10.0,
-                    color: Colors.blueAccent,
-                    offset: Offset(0.0, 0.0),
-                  ),
-                ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFFA726), // Naranja vibrante
+              Color(0xFFEC407A),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'EMPIEZA A JUGAR',
+                style: TextStyle(
+                  fontSize: 32,
+                  color: const Color.fromARGB(255, 20, 224, 13),
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10.0,
+                      color: const Color.fromARGB(255, 59, 223, 67),
+                      offset: Offset(0.0, 0.0),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Selecciona modo de juego:',
-              style: TextStyle(fontSize: 18, color: Colors.lightBlue),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                children: [
-                  GameModeCard(text: 'Modo básico', image: 'assets/images/green.jpg'),
-                  GameModeCard(text: 'Modo aventura', image: 'assets/images/azul.jpeg'),
-                  GameModeCard(text: 'Modo desafío', image: 'assets/images/anaranjado.jpg'),
-                  GameModeCard(text: 'Modo confesiones', image: 'assets/images/rojo.jpg'),
-                  GameModeCard(text: 'Modo Extremo', image: 'assets/images/negro.png'),
-                ],
+              SizedBox(height: 20),
+              Text(
+                'Selecciona modo de juego:',
+                style: TextStyle(fontSize: 18, color: const Color.fromARGB(255, 20, 244, 13)),
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  children: [
+                    GameModeCard(text: 'Modo básico', image: 'assets/images/green.jpg'),
+                    GameModeCard(text: 'Modo aventura', image: 'assets/images/azul.jpeg'),
+                    GameModeCard(text: 'Modo desafío', image: 'assets/images/anaranjado.jpg'),
+                    GameModeCard(text: 'Modo confesiones', image: 'assets/images/rojo.jpg'),
+                    GameModeCard(text: 'Modo Extremo', image: 'assets/images/negro.png'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -79,13 +89,14 @@ class _GameModeCard extends State<GameModeCard> {
   bool _isLoadedInterstitial = false;
   final adUnitId = 'ca-app-pub-3940256099942544/1033173712';
 
+  bool _isPressed = false;
+
   @override
   void initState() {
     super.initState();
-    loadAd(); // Cargar el anuncio cuando se inicializa el widget
+    loadAd();
   }
 
-  /// Loads an interstitial ad.
   void loadAd() {
     InterstitialAd.load(
         adUnitId: adUnitId,
@@ -111,7 +122,7 @@ class _GameModeCard extends State<GameModeCard> {
                   _isLoadedInterstitial = false;
                 });
                 loadAd();
-              }
+              },
             );
           },
           onAdFailedToLoad: (LoadAdError error) {
@@ -122,57 +133,66 @@ class _GameModeCard extends State<GameModeCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      margin: EdgeInsets.symmetric(vertical: 10),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: InkWell(
-        onTap: () {
-          // Navegar a la nueva página de Ruleta
-          if (text == 'Modo básico') {  
-            if (_isLoadedInterstitial) {
-              _interstitialAd!.show();
-            }
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoBasicoPage()));  
-          } else if (text == 'Modo aventura') {  
-            if (_isLoadedInterstitial) {
-              _interstitialAd!.show();
-            }
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoAventuraPage()));  
-          } else if (text == 'Modo desafío') {  
-            if (_isLoadedInterstitial) {
-              _interstitialAd!.show();
-            }
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoDesafioPage()));  
-          } else if (text == 'Modo confesiones') {  
-            if (_isLoadedInterstitial) {
-              _interstitialAd!.show();
-            }
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoConfesionesPage()));  
-          } else if (text == 'Modo Extremo') {  
-            if (_isLoadedInterstitial) {
-              _interstitialAd!.show();
-            }
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ModoExtremoPage()));  
-          }
-        },
-        child: ClipRRect(
+    return AnimatedScale(
+      scale: _isPressed ? 0.95 : 1.0,
+      duration: Duration(milliseconds: 200),
+      child: Card(
+        elevation: 5,
+        margin: EdgeInsets.symmetric(vertical: 10),
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
-          child: Container(
-            height: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(image),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+        ),
+        child: InkWell(
+          onTap: () {
+            setState(() => _isPressed = true);
+            Future.delayed(Duration(milliseconds: 200), () {
+              setState(() => _isPressed = false);
+              if (text == 'Modo básico') {  
+                if (_isLoadedInterstitial) {
+                  _interstitialAd!.show();
+                }
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ModoBasicoPage()));  
+              } else if (text == 'Modo aventura') {  
+                if (_isLoadedInterstitial) {
+                  _interstitialAd!.show();
+                }
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ModoAventuraPage()));  
+              } else if (text == 'Modo desafío') {  
+                if (_isLoadedInterstitial) {
+                  _interstitialAd!.show();
+                }
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ModoDesafioPage()));  
+              } else if (text == 'Modo confesiones') {  
+                if (_isLoadedInterstitial) {
+                  _interstitialAd!.show();
+                }
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ModoConfesionesPage()));  
+              } else if (text == 'Modo Extremo') {  
+                if (_isLoadedInterstitial) {
+                  _interstitialAd!.show();
+                }
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ModoExtremoPage()));  
+              }
+            });
+          },
+          onTapDown: (_) => setState(() => _isPressed = true),
+          onTapCancel: () => setState(() => _isPressed = false),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(image),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+                ),
               ),
-            ),
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
