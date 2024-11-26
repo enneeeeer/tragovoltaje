@@ -23,7 +23,8 @@ class SocialMediaPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => _launchURL('https://www.instagram.com'),
+              onTap: () =>
+                  _launchURL('https://www.instagram.com/tragovoltaje_oficial/'),
               child: FaIcon(
                 FontAwesomeIcons.instagram,
                 size: 50,
@@ -32,7 +33,8 @@ class SocialMediaPage extends StatelessWidget {
             ),
             SizedBox(height: 40),
             GestureDetector(
-              onTap: () => _launchURL('https://www.facebook.com'),
+              onTap: () => _launchURL(
+                  'https://www.facebook.com/people/TragoVoltaje/61569200769920/'),
               child: FaIcon(
                 FontAwesomeIcons.facebook,
                 size: 50,
@@ -41,7 +43,8 @@ class SocialMediaPage extends StatelessWidget {
             ),
             SizedBox(height: 40),
             GestureDetector(
-              onTap: () => _launchURL('https://www.tiktok.com'),
+              onTap: () => _launchURL(
+                  'https://www.tiktok.com/@tragovoltaje_oficial?is_from_webapp=1&sender_device=pc'),
               child: FaIcon(
                 FontAwesomeIcons.tiktok,
                 size: 50,
