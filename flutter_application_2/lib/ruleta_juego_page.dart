@@ -3,7 +3,6 @@ import 'package:TragoVoltaje/bluetooth_manager.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -17,9 +16,7 @@ class RuletaJuegoPage extends StatefulWidget {
   _RuletaJuegoPageState createState() => _RuletaJuegoPageState();
 }
 
-class _RuletaJuegoPageState extends State<RuletaJuegoPage>
-    with SingleTickerProviderStateMixin {
-  BluetoothConnection? connection;
+class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   double _angle = 0;
