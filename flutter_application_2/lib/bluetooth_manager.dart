@@ -1,14 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';  
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';  
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';  
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
 class BluetoothModel extends ChangeNotifier {  
-  BluetoothConnection? _connection;  
-  BluetoothDevice? _connectedDevice;  
+  BluetoothDevice ? _connectedDevice;  
   String connectionStatus = 'No conectado';
+  List<BluetoothService>? services;
+  StreamSubscription<BluetoothConnectionState>? _stateSubscription;
 
   BluetoothDevice? get connectedDevice => _connectedDevice;  
 
@@ -17,60 +17,75 @@ class BluetoothModel extends ChangeNotifier {
     double voltageValue = prefs.getDouble('voltage') ?? 0.0; // Valor por defecto
     double timeValue = prefs.getDouble('time') ?? 1.0; // Valor por defecto
 
-    final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false);
-    
     // Enviar señales según la configuración cargada
     if (voltageValue == 0.0 && timeValue == 1.0) {
-      bluetoothModel.sendMessage('1');
+      sendMessage('1');
     } else if (voltageValue == 0.0 && timeValue == 2.0) {
-      bluetoothModel.sendMessage('2');
+      sendMessage('2');
     } else if (voltageValue == 0.0 && timeValue == 3.0) {
-      bluetoothModel.sendMessage('3');
+      sendMessage('3');
     } else if (voltageValue == 0.5 && timeValue == 1.0) {
-      bluetoothModel.sendMessage('4');
+      sendMessage('4');
     } else if (voltageValue == 0.5 && timeValue == 2.0) {
-      bluetoothModel.sendMessage('5');
+      sendMessage('5');
     } else if (voltageValue == 0.5 && timeValue == 3.0) {
-      bluetoothModel.sendMessage('6');
+      sendMessage('6');
     } else if (voltageValue == 1.0 && timeValue == 1.0) {
-      bluetoothModel.sendMessage('7');
+      sendMessage('7');
     } else if (voltageValue == 1.0 && timeValue == 2.0) {
-      bluetoothModel.sendMessage('8');
+      sendMessage('8');
     } else if (voltageValue == 1.0 && timeValue == 3.0) {
-      bluetoothModel.sendMessage('9');
+      sendMessage('9');
     }
   }
 
-  Future<void> connect(BluetoothDevice device, context) async {  
+  void _handleDisconnection(BuildContext context) {
+    connectionStatus = 'Desconectado';
+    notifyListeners();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('La conexión se ha perdido.')),
+    );
+  }
+
+  Future<void> connect(BluetoothDevice device, BuildContext context) async {  
     try {  
-      _connection = await BluetoothConnection.toAddress(device.address);  
+      await device.connect();  
       _connectedDevice = device;  
+      services = await device.discoverServices();
       notifyListeners();  
-      print('Conectado a ${device.name} (${device.address})');  
+      print('Conectado a ${device.platformName} (${device.remoteId})');  
       ScaffoldMessenger.of(context).showSnackBar(  
         SnackBar(
-          content: Text('${device.name} conectada con éxito'), 
+          content: Text('${device.platformName} conectada con éxito'), 
           duration: Duration(seconds: 1),
         ),  
       );
-      connectionStatus = 'Conectado a ${device.name}';
+      connectionStatus = 'Conectado a ${device.platformName}';
       notifyListeners();
       cargarYEnviarConfiguracion(context);
+      _stateSubscription = device.connectionState.listen((state) {
+        if (state == BluetoothConnectionState.disconnected) {
+          _handleDisconnection(context);
+        }
+      });
     } catch (e) {  
-      connectionStatus = 'No se pudo conectar a ${device.name}';
+      connectionStatus = 'No se pudo conectar a ${device.platformName}';
       notifyListeners();
-    }  
-  }  
-
-  void sendMessage(String message) {  
-    if (_connection?.isConnected ?? false) {  
-      _connection?.output.add(Uint8List.fromList(utf8.encode(message + "\n")));  
     }  
   }  
 
   void sendConfig(String message, context) {  
-    if (_connection?.isConnected ?? false) {  
-      _connection?.output.add(Uint8List.fromList(utf8.encode(message + "\n")));  
+    if ((connectedDevice != null && services != null) && (connectionStatus != 'Desconectado')) {
+      // ignore: avoid_print
+      print('Si se encontraron servicios');
+      const String serviceUUID = "4fafc201-1fb5-459e-8d6c-78eaa0e9d4f0"; // Cambia esto por tu UUID
+      const String characteristicUUID = "beb5483e-36e1-4688-b7f5-5a2f1a3f5c04"; // Cambia esto por tu UUID
+
+      BluetoothService? service = services!.firstWhere((s) => s.uuid.toString() == serviceUUID);
+      BluetoothCharacteristic characteristic = service.characteristics.firstWhere((c) => c.uuid.toString() == characteristicUUID);
+
+      // Enviar el mensaje
+      characteristic.write(utf8.encode(message)); // Envía el mensaje como bytes
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Configuración guardada correctamente'),
@@ -85,11 +100,36 @@ class BluetoothModel extends ChangeNotifier {
         ),
       );
     }
+  } 
+
+  void sendMessage(String message) {  
+    if ((connectedDevice != null && services != null) && (connectionStatus != 'Desconectado')) {
+      // ignore: avoid_print
+      print('Si se encontraron servicios');
+      const String serviceUUID = "4fafc201-1fb5-459e-8d6c-78eaa0e9d4f0"; // Cambia esto por tu UUID
+      const String characteristicUUID = "beb5483e-36e1-4688-b7f5-5a2f1a3f5c04"; // Cambia esto por tu UUID
+
+      BluetoothService? service = services!.firstWhere((s) => s.uuid.toString() == serviceUUID);
+      BluetoothCharacteristic characteristic = service.characteristics.firstWhere((c) => c.uuid.toString() == characteristicUUID);
+
+      // Enviar el mensaje
+      characteristic.write(utf8.encode(message)); // Envía el mensaje como bytes
+    }
   }  
 
   void disconnect() {  
-    _connection?.dispose();  
-    _connectedDevice = null;  
-    notifyListeners();  
+    if (_connectedDevice != null) {
+      _connectedDevice!.disconnect();  
+      _connectedDevice = null;  
+      notifyListeners();  
+      connectionStatus = 'Desconectado';
+    }
   }  
+
+  @override
+  void dispose() {
+    _stateSubscription?.cancel();
+    disconnect(); // Desconectar el dispositivo al cerrar la aplicación
+    super.dispose();
+  }
 }

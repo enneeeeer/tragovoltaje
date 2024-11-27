@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' hide BluetoothDevice;  
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart'; 
 import 'package:TragoVoltaje/bluetooth_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:animate_do/animate_do.dart'; // Importa el paquete para las animaciones
+import 'package:animate_do/animate_do.dart';
 
 class ConectarPulsera extends StatefulWidget {
   const ConectarPulsera({super.key});
@@ -14,33 +13,24 @@ class ConectarPulsera extends StatefulWidget {
 }
 
 class _ConectarPulseraState extends State<ConectarPulsera> {
-  BluetoothConnection? connection;
   BluetoothDevice? connectedDevice;
   List<BluetoothDevice> devices = [];
+  final FlutterBluePlus flutterBlue = FlutterBluePlus();
+  bool isScanning = false;
 
   @override
   void initState() {
     super.initState();
     _requestBluetoothPermission();
-    _getBondedDevices();
-  }
-
-  Future<void> _getBondedDevices() async {
-    // Listar dispositivos emparejados
-    List<BluetoothDevice> bondedDevices = await FlutterBluetoothSerial.instance.getBondedDevices();
-    setState(() {
-      devices = bondedDevices; // Almacenar dispositivos emparejados
-    });
   }
 
   Future<void> _requestBluetoothPermission() async {
     var status = await Permission.bluetooth.request();
     if (status.isGranted) {
-      // Permiso concedido, intenta encender Bluetooth
+      // Permiso concedido
       try {
         await FlutterBluePlus.turnOn();
         await Future.delayed(Duration(seconds: 1));
-        await _getBondedDevices();
       } catch (e) {
         // Manejar la excepción si no se puede encender Bluetooth
         Future.delayed(Duration.zero, () {
@@ -65,6 +55,29 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
     }
   }
 
+  void startScan() async {
+    setState(() {
+      isScanning = true; // Deshabilitar el botón
+    });
+
+    // Iniciar escaneo
+    FlutterBluePlus.startScan(timeout: const Duration(seconds: 3));
+    FlutterBluePlus.scanResults.listen((results) {
+      setState(() {
+        devices = results.map((r) => r.device).toList();
+      });
+    });
+
+    // Esperar 3 segundos
+    await Future.delayed(const Duration(seconds: 3));
+
+    // Detener escaneo
+    FlutterBluePlus.stopScan();
+    setState(() {
+      isScanning = false; // Habilitar el botón nuevamente
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final bluetoothModel = Provider.of<BluetoothModel>(context);
@@ -82,9 +95,8 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start, // Alinear al inicio
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Animación de texto
               Pulse(
                 duration: const Duration(seconds: 2),
                 child: Container(
@@ -106,7 +118,6 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
                 ),
               ),
               SizedBox(height: 25),
-              // Imagen del logo
               ZoomIn(
                 duration: const Duration(seconds: 1),
                 child: Image.asset(
@@ -116,7 +127,11 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
                 ),
               ),
               SizedBox(height: 25),
-              // Dropdown para seleccionar dispositivo Bluetooth
+              ElevatedButton(
+                onPressed: isScanning ? null : startScan, // Deshabilitar si está escaneando
+                child: const Text('Iniciar Escaneo'),
+              ),
+              SizedBox(height: 25),
               FadeIn(
                 duration: const Duration(seconds: 1),
                 child: DropdownButton<BluetoothDevice>(
@@ -133,13 +148,12 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
                   items: devices.map((BluetoothDevice device) {
                     return DropdownMenuItem<BluetoothDevice>(
                       value: device,
-                      child: Text(device.name ?? "Desconocido"),
+                      child: Text(device.platformName),
                     );
                   }).toList(),
                 ),
               ),
               SizedBox(height: 20),
-              // Estado de la conexión
               Text(
                 bluetoothModel.connectionStatus,
                 style: TextStyle(fontSize: 18, color: Colors.white),
@@ -149,5 +163,11 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    FlutterBluePlus.stopScan();
+    super.dispose();
   }
 }

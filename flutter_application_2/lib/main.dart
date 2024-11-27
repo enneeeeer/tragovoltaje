@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'splash_screen.dart'; // Importa splash_screen.dart
+import 'splash_screen.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:TragoVoltaje/bluetooth_manager.dart';
