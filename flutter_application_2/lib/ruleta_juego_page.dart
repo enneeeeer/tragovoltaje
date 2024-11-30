@@ -21,6 +21,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   late Animation<double> _animation;
   double _angle = 0;
   final Random _random = Random();
+  bool girando = false;
 
   final Map<String, String> gifs = {
     'basico': 'assets/images/rayo.gif',
@@ -71,6 +72,9 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   }
 
   void _girarRuleta() {
+    setState(() {
+      girando = true; // Deshabilitar el botón
+    });
     double randomAngle = (2 * pi * _random.nextDouble()) + (2 * pi * 5);
     _controller.reset();
     _animation = Tween<double>(begin: _angle, end: _angle + randomAngle)
@@ -184,6 +188,9 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
+                          setState(() {
+                            girando = false; // Habilitar el botón nuevamente
+                          });
                         },
                         child:
                             Text('Shot', style: TextStyle(color: Colors.white)),
@@ -194,6 +201,9 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                           final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false);
                           bluetoothModel.sendMessage('0');
                           Navigator.of(context).pop();
+                          setState(() {
+                            girando = false; // Habilitar el botón nuevamente
+                          });
                         },
                         child: Text('Shock',
                             style: TextStyle(color: Colors.white)),
@@ -202,6 +212,9 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
+                          setState(() {
+                            girando = false; // Habilitar el botón nuevamente
+                          });
                         },
                         child: Text('Continuar',
                             style: TextStyle(color: Colors.white)),
@@ -276,11 +289,13 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                 Positioned(
                   bottom: 50,
                   child: ElevatedButton(
-                    onPressed: _girarRuleta,
+                    onPressed: girando ? null : _girarRuleta,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.red, 
+                      disabledForegroundColor: Colors.red.withOpacity(0.50), 
+                      disabledBackgroundColor: Colors.red.withOpacity(0.25),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                        EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     ),
                     child: Text(
                       'Girar',

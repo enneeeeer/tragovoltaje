@@ -1,9 +1,12 @@
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart'; 
 import 'package:TragoVoltaje/bluetooth_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ConectarPulsera extends StatefulWidget {
   const ConectarPulsera({super.key});
@@ -24,24 +27,32 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
     _requestBluetoothPermission();
   }
 
+  Future<void> _checkLocationPermission() async {
+    var status = await Permission.location.status;
+
+    if (status.isDenied) {
+      // Si el permiso está denegado, abrir la configuración de la aplicación
+      await openAppSettings();
+    } else if (status.isGranted) {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      print('Location service enabled: $serviceEnabled');
+      if (!serviceEnabled) {
+        const intent = AndroidIntent(
+          action: 'android.settings.LOCATION_SOURCE_SETTINGS',
+          flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+        );
+        intent.launch();
+      }
+    }
+  }
+
   Future<void> _requestBluetoothPermission() async {
     var status = await Permission.bluetooth.request();
     if (status.isGranted) {
-      // Permiso concedido
-      try {
-        await FlutterBluePlus.turnOn();
-        await Future.delayed(Duration(seconds: 1));
-      } catch (e) {
-        // Manejar la excepción si no se puede encender Bluetooth
-        Future.delayed(Duration.zero, () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('No se pudo encender Bluetooth.'),
-              duration: Duration(seconds: 3),
-            ),
-          );
-        });
-      }
+      await FlutterBluePlus.turnOn();
+      await Future.delayed(Duration(seconds: 1));
+      _checkLocationPermission();
+      return;
     } else {
       // El usuario no otorgó el permiso
       Future.delayed(Duration.zero, () {
@@ -56,6 +67,7 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
   }
 
   void startScan() async {
+    _requestBluetoothPermission();
     setState(() {
       isScanning = true; // Deshabilitar el botón
     });
@@ -64,7 +76,11 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
     FlutterBluePlus.startScan(timeout: const Duration(seconds: 3));
     FlutterBluePlus.scanResults.listen((results) {
       setState(() {
-        devices = results.map((r) => r.device).toList();
+        // Filtrar dispositivos que tienen nombre
+        devices = results
+            .map((r) => r.device)
+            .where((device) => device.platformName.isNotEmpty) // Filtrar dispositivos sin nombre
+            .toList();
       });
     });
 
