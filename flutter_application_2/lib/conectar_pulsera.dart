@@ -1,5 +1,3 @@
-import 'package:android_intent_plus/android_intent.dart';
-import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart'; 
@@ -28,21 +26,41 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
   }
 
   Future<void> _checkLocationPermission() async {
-    var status = await Permission.location.status;
+    LocationPermission permission = await Geolocator.checkPermission();  
 
-    if (status.isDenied) {
-      // Si el permiso está denegado, abrir la configuración de la aplicación
+    if (permission == LocationPermission.denied) {  
+      permission = await Geolocator.requestPermission();  
+      if (permission == LocationPermission.denied) {  
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Permiso de ubicación denegado.'),
+            duration: Duration(seconds: 3),
+          ),
+        );   
+        return;  
+      }  
+    }  
+
+    if (permission == LocationPermission.deniedForever) {  
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Permiso de ubicación denegado de forma permanente.'),
+          duration: Duration(seconds: 3),
+        ),
+      );  
       await openAppSettings();
-    } else if (status.isGranted) {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      print('Location service enabled: $serviceEnabled');
-      if (!serviceEnabled) {
-        const intent = AndroidIntent(
-          action: 'android.settings.LOCATION_SOURCE_SETTINGS',
-          flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
-        );
-        intent.launch();
-      }
+      return;  
+    }  
+
+    LocationSettings locationSettings = LocationSettings(  
+      accuracy: LocationAccuracy.high,  
+      distanceFilter: 10, // Opcional: Cambia este número según tus necesidades  
+    ); 
+
+    try {
+      await Geolocator.getCurrentPosition(locationSettings: locationSettings);  
+    } catch (e) {
+      print('Se nego el permiso de activar');
     }
   }
 
@@ -67,6 +85,10 @@ class _ConectarPulseraState extends State<ConectarPulsera> {
   }
 
   void startScan() async {
+    // var bluetoothStatus = await FlutterBluePlus.adapterState.first;
+    //if (bluetoothStatus != BluetoothAdapterState.on) {
+    //  return;
+    //}
     _requestBluetoothPermission();
     setState(() {
       isScanning = true; // Deshabilitar el botón

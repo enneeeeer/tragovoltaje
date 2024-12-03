@@ -127,6 +127,20 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),  
                   textStyle: TextStyle(fontSize: 18),  
                 ),  
+              ),
+              SizedBox(height: 20), 
+              GestureDetector(
+                onTap: () {
+                  final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false);
+                  bluetoothModel.sendMessage('0');
+                },
+                child: Text(
+                  '¿Quieres probar la descarga? Haz clic aquí',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
               ),  
             ],  
           ),  
