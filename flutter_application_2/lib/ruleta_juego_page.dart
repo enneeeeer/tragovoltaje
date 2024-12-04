@@ -22,6 +22,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   double _angle = 0;
   final Random _random = Random();
   bool girando = false;
+  Map<String, bool> shotButtonStates = {};
 
   final Map<String, String> gifs = {
     'basico': 'assets/images/rayo.gif',
@@ -45,6 +46,10 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
       duration: const Duration(seconds: 3),
       vsync: this,
     );
+
+    for (var nombre in widget.nombres) {
+      shotButtonStates[nombre] = true; // Todos los botones "Shot" están habilitados al inicio
+    }
 
     _animation = Tween<double>(begin: 0, end: 0).animate(_controller)
       ..addListener(() {
@@ -186,14 +191,16 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () {
+                        onPressed: shotButtonStates[nombreSeleccionado]! ? () {
+                          setState(() {
+                            shotButtonStates[nombreSeleccionado] = false; // Deshabilitar el botón "Shot" para el jugador actual
+                          });
                           Navigator.of(context).pop();
                           setState(() {
                             girando = false; // Habilitar el botón nuevamente
                           });
-                        },
-                        child:
-                            Text('Shot', style: TextStyle(color: Colors.white)),
+                        } : null, // Deshabilitar el botón si el estado es false
+                        child: Text('Shot', style: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(width: 5),
                       TextButton(
@@ -203,10 +210,10 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                           Navigator.of(context).pop();
                           setState(() {
                             girando = false; // Habilitar el botón nuevamente
+                            shotButtonStates[nombreSeleccionado] = true; // Permitir el uso de "Shot" nuevamente
                           });
                         },
-                        child: Text('Shock',
-                            style: TextStyle(color: Colors.white)),
+                        child: Text('Shock', style: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(width: 5),
                       TextButton(
@@ -216,8 +223,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
                             girando = false; // Habilitar el botón nuevamente
                           });
                         },
-                        child: Text('Continuar',
-                            style: TextStyle(color: Colors.white)),
+                        child: Text('Continuar', style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),
