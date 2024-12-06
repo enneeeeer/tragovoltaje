@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:TragoVoltaje/bluetooth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';  
@@ -10,8 +11,8 @@ class ControlarVoltaje extends StatefulWidget {
   _ControlarVoltajeState createState() => _ControlarVoltajeState();  
 }  
 
-class _ControlarVoltajeState extends State<ControlarVoltaje> {  
-  double _voltageValue = 0.0; // Valor inicial para el voltaje  
+class _ControlarVoltajeState extends State<ControlarVoltaje> {
+  bool _isButtonTestEnabled = true;
   double _timeValue = 1.0; // Valor inicial para el tiempo  
 
   @override  
@@ -24,37 +25,46 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
   Future<void> _loadSettings() async {  
     SharedPreferences prefs = await SharedPreferences.getInstance();  
     setState(() {  
-      _voltageValue = prefs.getDouble('voltage') ?? 0.0;  
       _timeValue = prefs.getDouble('time') ?? 1.0;  
     });  
   }  
 
   // Guardar configuraciones  
   Future<void> _saveSettings() async {  
-    SharedPreferences prefs = await SharedPreferences.getInstance();  
-    await prefs.setDouble('voltage', _voltageValue);  
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('time', _timeValue);  
     final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false); 
-    if (_voltageValue == 0.0 && _timeValue == 1.0) {
+    if (_timeValue == 1.0) {
       bluetoothModel.sendConfig('1', context);
-    } else if (_voltageValue == 0.0 && _timeValue == 2.0) {
+    } else if (_timeValue == 2.0) {
       bluetoothModel.sendConfig('2', context);
-    } else if (_voltageValue == 0.0 && _timeValue == 3.0) {
+    } else if (_timeValue == 3.0) {
       bluetoothModel.sendConfig('3', context);
-    } else if (_voltageValue == 0.5 && _timeValue == 1.0) {
+    } else if (_timeValue == 4.0) {
       bluetoothModel.sendConfig('4', context);
-    } else if (_voltageValue == 0.5 && _timeValue == 2.0) {
+    } else if (_timeValue == 5.0) {
       bluetoothModel.sendConfig('5', context);
-    } else if (_voltageValue == 0.5 && _timeValue == 3.0) {
-      bluetoothModel.sendConfig('6', context);
-    } else if (_voltageValue == 1.0 && _timeValue == 1.0) {
-      bluetoothModel.sendConfig('7', context);
-    } else if (_voltageValue == 1.0 && _timeValue == 2.0) {
-      bluetoothModel.sendConfig('8', context);
-    } else if (_voltageValue == 1.0 && _timeValue == 3.0) {
-      bluetoothModel.sendConfig('9', context);
     }
   }  
+
+  void _testDescarga() {
+    if (_isButtonTestEnabled) {
+      final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false);
+      bluetoothModel.sendMessage('0');
+
+      // Deshabilitar el botón
+      setState(() {
+        _isButtonTestEnabled = false;
+      });
+
+      // Habilitar el botón después de _timeValue segundos
+      Timer(Duration(seconds: _timeValue.toInt()), () {
+        setState(() {
+          _isButtonTestEnabled = true;
+        });
+      });
+    }
+  }
 
   @override  
   Widget build(BuildContext context) {  
@@ -76,7 +86,7 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
             mainAxisAlignment: MainAxisAlignment.center,  
             children: [  
               Text(  
-                'Controles de Descargas',  
+                'Control de Descargas',  
                 style: TextStyle(  
                   fontSize: 24,  
                   fontWeight: FontWeight.bold,  
@@ -86,17 +96,7 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
               SizedBox(height: 20), // Espaciado entre el título y los sliders  
               Row(  
                 mainAxisAlignment: MainAxisAlignment.center,  
-                children: [  
-                  CustomSliderVoltage(  
-                    icon: Icons.battery_charging_full,  
-                    value: _voltageValue,  
-                    onChanged: (value) {  
-                      setState(() {  
-                        _voltageValue = value;  
-                      });  
-                    },  
-                  ),  
-                  SizedBox(width: 20), // Espaciado entre sliders  
+                children: [ 
                   CustomSliderTime(  
                     icon: Icons.timer,  
                     value: _timeValue,  
@@ -130,15 +130,12 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
               ),
               SizedBox(height: 20), 
               GestureDetector(
-                onTap: () {
-                  final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false);
-                  bluetoothModel.sendMessage('0');
-                },
+                onTap: _testDescarga,
                 child: Text(
                   '¿Quieres probar la descarga? Haz clic aquí',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: _isButtonTestEnabled ? Colors.white : Colors.grey,
                   ),
                 ),
               ),  
@@ -149,24 +146,6 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
     );
   }  
 }
-
-class CustomSliderVoltage extends StatelessWidget {  
-  final IconData icon;  
-  final double value;  
-  final ValueChanged<double> onChanged;  
-
-  const CustomSliderVoltage({  
-    Key? key,  
-    required this.icon,  
-    required this.value,  
-    required this.onChanged,  
-  }) : super(key: key);  
-
-  @override  
-  Widget build(BuildContext context) {  
-    return _SliderWidget(value: value, onChanged: onChanged, icon: icon, levels: [0.0, 0.5, 1.0], labels: ["Bajo", "Medio", "Alto"]);  
-  }  
-}  
 
 class CustomSliderTime extends StatelessWidget {  
   final IconData icon;  
@@ -182,7 +161,7 @@ class CustomSliderTime extends StatelessWidget {
 
   @override  
   Widget build(BuildContext context) {  
-    return _SliderWidget(value: value, onChanged: onChanged, icon: icon, levels: [1.0, 2.0, 3.0], labels: ["1 seg", "2 seg", "3 seg"]);  
+    return _SliderWidget(value: value, onChanged: onChanged, icon: icon, levels: [1.0, 2.0, 3.0, 4.0, 5.0], labels: ["1 tiempo", "2 tiempos", "3 tiempos", "4 tiempos", "5 tiempos"]);  
   }  
 }  
 
@@ -252,9 +231,11 @@ class _SliderWidgetState extends State<_SliderWidget> {
   Color _getTrackColor(double value) {
     int index = widget.levels.indexOf(value);
     switch (index) {
-      case 0: return Colors.green; // Bajo
-      case 1: return Colors.orange; // Medio
-      case 2: return Colors.red; // Alto
+      case 0: return Colors.lightGreenAccent; // Bajo
+      case 1: return Colors.yellow; // Bajo - Medio
+      case 2: return Colors.orange; // Medio
+      case 3: return Colors.red; // Medio - Alto
+      case 4: return const Color.fromARGB(255, 203, 1, 1); // Alto
       default: return Colors.grey;
     }
   }

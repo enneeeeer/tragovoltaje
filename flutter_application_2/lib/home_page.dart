@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                title: const Text('Controlar voltaje', style: TextStyle(color: Colors.white)),
+                title: const Text('Controlar descarga', style: TextStyle(color: Colors.white)),
                 onTap: () {
                   _onItemTapped(1);
                   Navigator.pop(context);
