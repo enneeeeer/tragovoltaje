@@ -50,19 +50,28 @@ class _ControlarVoltajeState extends State<ControlarVoltaje> {
   void _testDescarga() {
     if (_isButtonTestEnabled) {
       final bluetoothModel = Provider.of<BluetoothModel>(context, listen: false);
-      bluetoothModel.sendMessage('0');
+      if (bluetoothModel.connectionStatus != 'Desconectado') {
+        bluetoothModel.sendMessage('0');
 
-      // Deshabilitar el botón
-      setState(() {
-        _isButtonTestEnabled = false;
-      });
-
-      // Habilitar el botón después de _timeValue segundos
-      Timer(Duration(seconds: _timeValue.toInt()), () {
+        // Deshabilitar el botón
         setState(() {
-          _isButtonTestEnabled = true;
+          _isButtonTestEnabled = false;
         });
-      });
+
+        // Habilitar el botón después de _timeValue segundos
+        Timer(Duration(seconds: _timeValue.toInt()), () {
+          setState(() {
+            _isButtonTestEnabled = true;
+          });
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('No se puede testear la descarga. Conexión perdida.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 

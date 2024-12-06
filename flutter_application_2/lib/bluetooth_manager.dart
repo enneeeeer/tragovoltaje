@@ -14,28 +14,19 @@ class BluetoothModel extends ChangeNotifier {
 
   Future<void> cargarYEnviarConfiguracion(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    double voltageValue = prefs.getDouble('voltage') ?? 0.0; // Valor por defecto
     double timeValue = prefs.getDouble('time') ?? 1.0; // Valor por defecto
 
     // Enviar señales según la configuración cargada
-    if (voltageValue == 0.0 && timeValue == 1.0) {
+    if (timeValue == 1.0) {
       sendMessage('1');
-    } else if (voltageValue == 0.0 && timeValue == 2.0) {
+    } else if (timeValue == 2.0) {
       sendMessage('2');
-    } else if (voltageValue == 0.0 && timeValue == 3.0) {
+    } else if (timeValue == 3.0) {
       sendMessage('3');
-    } else if (voltageValue == 0.5 && timeValue == 1.0) {
+    } else if (timeValue == 4.0) {
       sendMessage('4');
-    } else if (voltageValue == 0.5 && timeValue == 2.0) {
+    } else if (timeValue == 5.0) {
       sendMessage('5');
-    } else if (voltageValue == 0.5 && timeValue == 3.0) {
-      sendMessage('6');
-    } else if (voltageValue == 1.0 && timeValue == 1.0) {
-      sendMessage('7');
-    } else if (voltageValue == 1.0 && timeValue == 2.0) {
-      sendMessage('8');
-    } else if (voltageValue == 1.0 && timeValue == 3.0) {
-      sendMessage('9');
     }
   }
 
