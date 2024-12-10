@@ -32,24 +32,23 @@ class Premium extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Contenedor con las opciones de Premium
               SizedBox(
                 width: double
-                    .infinity, // Asegura que el contenedor ocupe todo el ancho
+                    .infinity,
                 child: Container(
                   padding:
-                      const EdgeInsets.all(15.0), // Espacio dentro de la caja
+                      const EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(
-                        255, 0, 0, 0), // Color de fondo de la caja
+                        255, 0, 0, 0),
                     borderRadius:
-                        BorderRadius.circular(10), // Bordes redondeados
+                        BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.greenAccent, // Color del borde neón
+                        color: Colors.greenAccent,
                         spreadRadius: 3,
                         blurRadius: 10,
-                        offset: const Offset(0, 0), // Sombra difusa
+                        offset: const Offset(0, 0),
                       ),
                     ],
                   ),
@@ -64,7 +63,7 @@ class Premium extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                          height: 9), // Espacio entre los elementos de la lista
+                          height: 9),
                       Text(
                         '• Desbloquea el modo extremo:',
                         style: TextStyle(
@@ -73,7 +72,7 @@ class Premium extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                          height: 8), // Espacio entre los elementos de la lista
+                          height: 8),
                       Text(
                         '  Más preguntas potentes...',
                         style: TextStyle(
@@ -85,56 +84,47 @@ class Premium extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Espacio entre la caja de texto y los botones
               const SizedBox(height: 100),
-
-              // Botón "Plan Mensual"
               SizedBox(
-                width: double.infinity, // Hace que el botón ocupe todo el ancho
+                width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
                     // Acción a realizar al presionar el botón "Plan Mensual"
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
-                        255, 47, 100, 36), // Color de fondo del botón
+                        255, 47, 100, 36),
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15), // Solo padding vertical
+                        vertical: 15),
                   ),
                   child: const Text(
-                    'ADQUIRIR PLAN MENSUAL', // Texto dentro del botón
+                    'ADQUIRIR PLAN MENSUAL',
                     style: TextStyle(
                       fontSize: 18,
                       color: Color.fromARGB(255, 255, 255, 255),
-                    ), // Tamaño de la fuente del texto del botón
+                    ),
                   ),
                 ),
               ),
-
-              // Espacio entre los botones
               const SizedBox(height: 10),
-
-              // Botón "Plan Anual"
               SizedBox(
-                width: double.infinity, // Hace que el botón ocupe todo el ancho
+                width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
                     // Acción a realizar al presionar el botón "Plan Anual"
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
-                        255, 47, 100, 36), // Color de fondo del botón
+                        255, 47, 100, 36),
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15), // Solo padding vertical
-                    // Elevación para mayor neón
+                        vertical: 15), 
                   ),
                   child: const Text(
-                    'ADQUIRIR PLAN ANUAL', // Texto dentro del botón
+                    'ADQUIRIR PLAN ANUAL', 
                     style: TextStyle(
                       fontSize: 18,
                       color: Color.fromARGB(255, 255, 255, 255),
-                    ), // Tamaño de la fuente del texto del botón
+                    ), 
                   ),
                 ),
               ),
