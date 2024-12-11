@@ -8,7 +8,8 @@ class HelpPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: Text('Ayuda', style: TextStyle(fontFamily: 'Roboto', fontSize: 22)),
+        title:
+            Text('Ayuda', style: TextStyle(fontFamily: 'Roboto', fontSize: 22)),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -59,19 +60,14 @@ class HelpPage extends StatelessWidget {
                 _buildExpansionTile(
                   title: '¿Cómo emparejar la pulsera a la app?',
                   content:
-                      'Para emparejar la pulsera, enciéndela y abre la app. En la página principal, selecciona se conectará automáticamente después que hayas encendido tu bluetooth.',
+                      'Para emparejar la pulsera, enciéndela y abre la app. En la página principal, selecciona se conectará automáticamente después que hayas encendido tu bluetooth y tu ubicación.',
                   icon: Icons.bluetooth,
                 ),
                 _buildExpansionTile(
                   title: '¿Cómo funciona el sistema de descargas? ¿Es seguro?',
                   content:
-                      'El sistema de descargas está diseñado para ser seguro y controlado. La intensidad es regulada para ser inofensiva y divertida.',
+                      'El sistema de descargas está diseñado para ser seguro y controlado. La intensidad es regulada para ser inofensiva y divertida. Sin embargo, no es recomendable el uso para personas que tengan problemas mayores de salud (enfermedades cardíacas, epilepsia, trastornos convulsivos, embarazo, hipertensión, asma, etc.)',
                   icon: Icons.security,
-                ),
-                _buildExpansionTile(
-                  title: '¿Cómo cambiar la intensidad de las descargas?',
-                  content: 'Está por verse.',
-                  icon: Icons.tune,
                 ),
                 _buildExpansionTile(
                   title: '¿Qué modos de juegos están disponibles?',
@@ -80,27 +76,11 @@ class HelpPage extends StatelessWidget {
                   icon: Icons.games,
                 ),
                 _buildExpansionTile(
-                  title: '¿Qué modos de juegos están disponibles en el plan Premium?',
-                  content:
-                      'El plan Premium incluye modos exclusivos, como el modo extremo y personalizado, aparte podrás librarte de los anuncios para jugar sin interrupciones.',
-                  icon: Icons.star,
-                ),
-                _buildExpansionTile(
-                  title: '¿Qué hacer si la pulsera se desconecta mediante el juego?',
+                  title:
+                      '¿Qué hacer si la pulsera se desconecta mediante el juego?',
                   content:
                       'Si la pulsera se desconecta, intenta reconectarla desde la configuración de la app o reinicia el dispositivo si el problema persiste.',
                   icon: Icons.link_off,
-                ),
-                _buildExpansionTile(
-                  title: '¿Cómo configuro mis propios desafíos y preguntas?',
-                  content:
-                      'Puedes configurar tus propios desafíos y preguntas en el modo de personalización dentro de la app. (por verse)',
-                  icon: Icons.edit,
-                ),
-                _buildExpansionTile(
-                  title: '¿Cómo conectar más jugadores a la app?',
-                  content: 'Por verse',
-                  icon: Icons.group,
                 ),
               ],
             ),
@@ -110,19 +90,26 @@ class HelpPage extends StatelessWidget {
     );
   }
 
-  ExpansionTile _buildExpansionTile({required String title, required String content, required IconData icon}) {
+  ExpansionTile _buildExpansionTile(
+      {required String title,
+      required String content,
+      required IconData icon}) {
     return ExpansionTile(
       leading: Icon(icon, color: Colors.deepPurple.shade700),
       title: Text(
         title,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.deepPurple.shade900),
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Colors.deepPurple.shade900),
       ),
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
             content,
-            style: TextStyle(fontSize: 16, color: const Color.fromARGB(255, 2, 2, 2)),
+            style: TextStyle(
+                fontSize: 16, color: const Color.fromARGB(255, 2, 2, 2)),
           ),
         ),
       ],
