@@ -38,6 +38,12 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
   List<String> retosDesafios = [];
   List<String> retosExtremos = [];
 
+  List<String> retosBasicosDisponibles = [];
+  List<String> retosAventuraDisponibles = [];
+  List<String> retosConfesionesDisponibles = [];
+  List<String> retosDesafiosDisponibles = [];
+  List<String> retosExtremosDisponibles = [];
+
   @override
   void initState() {
     super.initState();
@@ -73,7 +79,70 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
       retosConfesiones = List<String>.from(data['retosConfesiones']);
       retosDesafios = List<String>.from(data['retosDesafios']);
       retosExtremos = List<String>.from(data['retosExtremos']);
+
+      // Inicializar las listas temporales
+      retosBasicosDisponibles = List.from(retosBasicos);
+      retosAventuraDisponibles = List.from(retosAventura);
+      retosConfesionesDisponibles = List.from(retosConfesiones);
+      retosDesafiosDisponibles = List.from(retosDesafios);
+      retosExtremosDisponibles = List.from(retosExtremos);
     });
+  }
+
+  void reiniciarListaRetos(String modo) {
+    switch (modo) {
+      case 'basico':
+        retosBasicosDisponibles = List.from(retosBasicos);
+        break;
+      case 'aventura':
+        retosAventuraDisponibles = List.from(retosAventura);
+        break;
+      case 'confesiones':
+        retosConfesionesDisponibles = List.from(retosConfesiones);
+        break;
+      case 'desafio':
+        retosDesafiosDisponibles = List.from(retosDesafios);
+        break;
+      case 'extremo':
+        retosExtremosDisponibles = List.from(retosExtremos);
+        break;
+    }
+  }
+
+  String obtenerRetoAleatorio(String modo) {
+    List<String> retosDisponibles;
+
+    switch (modo) {
+      case 'basico':
+        retosDisponibles = retosBasicosDisponibles;
+        break;
+      case 'aventura':
+        retosDisponibles = retosAventuraDisponibles;
+        break;
+      case 'confesiones':
+        retosDisponibles = retosConfesionesDisponibles;
+        break;
+      case 'desafio':
+        retosDisponibles = retosDesafiosDisponibles;
+        break;
+      case 'extremo':
+        retosDisponibles = retosExtremosDisponibles;
+        break;
+      default:
+        return "Modo desconocido.";
+    }
+
+    // Si la lista temporal está vacía, reiniciarla con los retos originales
+    if (retosDisponibles.isEmpty) {
+      reiniciarListaRetos(modo);
+    }
+
+    // Seleccionar un reto al azar y eliminarlo de la lista temporal
+    int index = Random().nextInt(retosDisponibles.length);
+    String retoSeleccionado = retosDisponibles[index];
+    retosDisponibles.removeAt(index);
+
+    return retoSeleccionado;
   }
 
   void _girarRuleta() {
@@ -94,25 +163,7 @@ class _RuletaJuegoPageState extends State<RuletaJuegoPage> with SingleTickerProv
         widget.nombres.length;
 
     String nombreSeleccionado = widget.nombres[selectedIndex];
-    String reto = '';
-
-    switch (widget.modo) {
-      case 'basico':
-        reto = retosBasicos[Random().nextInt(retosBasicos.length)];
-        break;
-      case 'aventura':
-        reto = retosAventura[Random().nextInt(retosAventura.length)];
-        break;
-      case 'desafio':
-        reto = retosDesafios[Random().nextInt(retosDesafios.length)];
-        break;
-      case 'confesiones':
-        reto = retosConfesiones[Random().nextInt(retosConfesiones.length)];
-        break;
-      case 'extremo':
-        reto = retosExtremos[Random().nextInt(retosExtremos.length)];
-        break;
-    }
+    String reto = obtenerRetoAleatorio(widget.modo);
 
     showDialog(
       barrierDismissible: false,
