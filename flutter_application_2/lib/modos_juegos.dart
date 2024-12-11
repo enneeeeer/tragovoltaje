@@ -87,7 +87,7 @@ class _GameModeCard extends State<GameModeCard> {
 
   InterstitialAd? _interstitialAd;
   bool _isLoadedInterstitial = false;
-  final adUnitId = 'ca-app-pub-9935280852264602/6818784740';
+  final adUnitId = 'ca-app-pub-9935280852264602/9849607929';
 
   bool _isPressed = false;
 

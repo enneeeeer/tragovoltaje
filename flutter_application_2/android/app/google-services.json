@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "320644322065",
-    "project_id": "idka-e13ea",
-    "storage_bucket": "idka-e13ea.firebasestorage.app"
+    "project_number": "61344499456",
+    "project_id": "tragovoltaje-e445c",
+    "storage_bucket": "tragovoltaje-e445c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:320644322065:android:ece6323bb15bc0ddbd72b0",
+        "mobilesdk_app_id": "1:61344499456:android:b825ab8e8ba10852b755e5",
         "android_client_info": {
-          "package_name": "com.tragovoltaje.flutter_application_2"
+          "package_name": "com.trago.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDgdhwuNvynSG5TUAcEDEEyPEYqhlj8718"
+          "current_key": "AIzaSyB6lUQh2xB3lbIRsdHObXyx6QtHzfuUR44"
         }
       ],
       "services": {

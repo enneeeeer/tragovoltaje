@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Premium extends StatelessWidget {
+class Premium extends StatefulWidget {
   const Premium({super.key});
+
+  @override
+  _PremiumState createState() => _PremiumState();
+}
+
+class _PremiumState extends State<Premium> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +43,12 @@ class Premium extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: double
-                    .infinity,
+                width: double.infinity,
                 child: Container(
-                  padding:
-                      const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(
-                        255, 0, 0, 0),
-                    borderRadius:
-                        BorderRadius.circular(10),
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.greenAccent,
@@ -62,8 +68,7 @@ class Premium extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-                      SizedBox(
-                          height: 9),
+                      SizedBox(height: 9),
                       Text(
                         '• Desbloquea el modo extremo:',
                         style: TextStyle(
@@ -71,8 +76,7 @@ class Premium extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-                      SizedBox(
-                          height: 8),
+                      SizedBox(height: 8),
                       Text(
                         '  Más preguntas potentes...',
                         style: TextStyle(
@@ -92,10 +96,8 @@ class Premium extends StatelessWidget {
                     // Acción a realizar al presionar el botón "Plan Mensual"
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                        255, 47, 100, 36),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15),
+                    backgroundColor: const Color.fromARGB(255, 47, 100, 36),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
                   child: const Text(
                     'ADQUIRIR PLAN MENSUAL',
@@ -114,17 +116,15 @@ class Premium extends StatelessWidget {
                     // Acción a realizar al presionar el botón "Plan Anual"
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                        255, 47, 100, 36),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15), 
+                    backgroundColor: const Color.fromARGB(255, 47, 100, 36),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
                   child: const Text(
-                    'ADQUIRIR PLAN ANUAL', 
+                    'ADQUIRIR PLAN ANUAL',
                     style: TextStyle(
                       fontSize: 18,
                       color: Color.fromARGB(255, 255, 255, 255),
-                    ), 
+                    ),
                   ),
                 ),
               ),
